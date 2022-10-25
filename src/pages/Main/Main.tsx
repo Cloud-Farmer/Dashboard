@@ -4,7 +4,7 @@ import TestChart1 from '../Example/TestChart1';
 import TextChart2 from '../Example/TextChart2';
 import TestTable from '../Example/TestTable';
 
-const Main = () => (
+const Main = () => {
   <ColGrid
     numCols={1}
     numColsSm={2}
@@ -35,6 +35,6 @@ const Main = () => (
       <Text>Title</Text>
       <Metric>KPI 5</Metric>
     </Card>
-  </ColGrid>
-);
+  </ColGrid>;
+};
 export default Main;
