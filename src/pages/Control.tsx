@@ -7,88 +7,102 @@ import { languages } from '../util';
 
 const Control = () => {
   const initValue = {
-    window: false,
-    pump: false,
-    fan: false,
-    led: false,
+    window: undefined,
+    pump: undefined,
+    fan: undefined,
+    led: undefined,
   };
 
   const [lang, setLang] = useLanguage();
+  const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(initValue);
 
   useEffect(() => {
-    console.log('창문 상태 ' + controlSensorStatusAPI(1, 'window', setValue));
+    const callAPI = async () => {
+      await controlSensorStatusAPI(1, 'window', value, setValue);
+      await controlSensorStatusAPI(1, 'pump', value, setValue);
+      await controlSensorStatusAPI(1, 'fan', value, setValue);
+      await controlSensorStatusAPI(1, 'led', value, setValue);
+      await setLoading(false);
+    };
+    callAPI();
   }, []);
 
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
+
   return (
-    <>
-      <Col>
-        <Card hFull>
-          <>
-            <Metric>{languages.windowlang[lang]}</Metric>
+    !loading && (
+      <>
+        <Col>
+          <Card hFull>
+            <>
+              <Metric>{languages.windowlang[lang]}</Metric>
+              <Toggle
+                color="blue"
+                defaultValue={value.window}
+                handleSelect={(value: boolean) =>
+                  controlSensorAPI(value, 1, 'window', lang)
+                }
+                marginTop="mt-5"
+              >
+                <ToggleItem value={true} text="On" />
+                <ToggleItem value={false} text="Off" />
+              </Toggle>
+            </>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <Metric>{languages.pumplang[lang]}</Metric>
             <Toggle
               color="blue"
-              defaultValue={value.window}
+              defaultValue={value.pump}
               handleSelect={(value: boolean) =>
-                controlSensorAPI(value, 1, 'window', lang)
+                controlSensorAPI(value, 1, 'pump', lang)
               }
               marginTop="mt-5"
             >
               <ToggleItem value={true} text="On" />
               <ToggleItem value={false} text="Off" />
             </Toggle>
-          </>
-        </Card>
-      </Col>
-      <Col>
-        <Card hFull>
-          <Metric>{languages.pumplang[lang]}</Metric>
-          <Toggle
-            color="blue"
-            defaultValue={value.pump}
-            handleSelect={(value: boolean) =>
-              controlSensorAPI(value, 1, 'pump', lang)
-            }
-            marginTop="mt-5"
-          >
-            <ToggleItem value={true} text="On" />
-            <ToggleItem value={false} text="Off" />
-          </Toggle>
-        </Card>
-      </Col>
-      <Col>
-        <Card hFull>
-          <Metric>{languages.fanlang[lang]}</Metric>
-          <Toggle
-            color="blue"
-            defaultValue={value.fan}
-            handleSelect={(value: boolean) =>
-              controlSensorAPI(value, 1, 'fan', lang)
-            }
-            marginTop="mt-5"
-          >
-            <ToggleItem value={true} text="On" />
-            <ToggleItem value={false} text="Off" />
-          </Toggle>
-        </Card>
-      </Col>
-      <Col>
-        <Card hFull>
-          <Metric>{languages.ledlang[lang]}</Metric>
-          <Toggle
-            color="blue"
-            defaultValue={value.led}
-            handleSelect={(value: boolean) =>
-              controlSensorAPI(value, 1, 'led', lang)
-            }
-            marginTop="mt-5"
-          >
-            <ToggleItem value={true} text="On" />
-            <ToggleItem value={false} text="Off" />
-          </Toggle>
-        </Card>
-      </Col>
-    </>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <Metric>{languages.fanlang[lang]}</Metric>
+            <Toggle
+              color="blue"
+              defaultValue={value.fan}
+              handleSelect={(value: boolean) =>
+                controlSensorAPI(value, 1, 'fan', lang)
+              }
+              marginTop="mt-5"
+            >
+              <ToggleItem value={true} text="On" />
+              <ToggleItem value={false} text="Off" />
+            </Toggle>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <Metric>{languages.ledlang[lang]}</Metric>
+            <Toggle
+              color="blue"
+              defaultValue={value.led}
+              handleSelect={(value: boolean) =>
+                controlSensorAPI(value, 1, 'led', lang)
+              }
+              marginTop="mt-5"
+            >
+              <ToggleItem value={true} text="On" />
+              <ToggleItem value={false} text="Off" />
+            </Toggle>
+          </Card>
+        </Col>
+      </>
+    )
   );
 };
 export default Control;
