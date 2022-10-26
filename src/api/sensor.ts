@@ -78,14 +78,15 @@ const controlSensorAPI = (
     });
 };
 
-const controlSensorStatusAPI = (setStatus: Dispatch<any>) => {
+const controlSensorStatusAPI = (kit_id: number, sensor: ControlSensorType) => {
   axios
-    .get(API_URL + 'dd', {
+    .get(API_URL + controlurl, {
+      params: { kit_id, sensor },
       headers: headerConfig,
     })
     .then((response: AxiosResponse) => {
-      // setStatus(Boolean(response.data));
-      console.log(response.data);
+      console.log(sensor);
+      return response.data;
     })
     .catch((error) => {
       handleError(error);

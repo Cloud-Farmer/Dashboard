@@ -29,7 +29,7 @@ export default () => {
     getSensorAPI(1, 10, 'soilhumidity', setSoilData, lang);
   }, [lang]);
 
-  const tempFormatter = (value: number) => value + 'C';
+  const tempFormatter = (value: number) => value; //+ 'C';
 
   const formatters: { [key: string]: any } = {
     temperature: tempFormatter,
@@ -75,8 +75,8 @@ export default () => {
           handleSelect={(value) => setShowCard(value === 0)}
           marginTop="mt-2"
         >
-          <ToggleItem value={0} text="AreaChart" />
-          <ToggleItem value={1} text="LineChart" />
+          <ToggleItem value={0} text={languages.areatoggle[lang]} />
+          <ToggleItem value={1} text={languages.linetoggle[lang]} />
         </Toggle>
         <Toggle
           color="zinc"
@@ -84,10 +84,10 @@ export default () => {
           handleSelect={(value) => setChart(value)}
           marginTop="mt-3"
         >
-          <ToggleItem value="temperature" text="Temperature Chart" />
-          <ToggleItem value="humidity" text="Humidity Chart" />
-          <ToggleItem value="illuminance" text="Illuminance Chart" />
-          <ToggleItem value="soilhumidity" text="Soil Humidity Chart" />
+          <ToggleItem value="temperature" text={languages.temptoggle[lang]} />
+          <ToggleItem value="humidity" text={languages.humtoggle[lang]} />
+          <ToggleItem value="illuminance" text={languages.illtoggle[lang]} />
+          <ToggleItem value="soilhumidity" text={languages.soiltoggle[lang]} />
         </Toggle>
       </div>
     </>

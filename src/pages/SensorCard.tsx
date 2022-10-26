@@ -7,19 +7,23 @@ import {
   soilDataState,
   tempDataState,
 } from '../state/atoms';
+import { useLanguage } from '../hooks';
+import { languages } from '../util';
 
 export default () => {
   const tempData = useRecoilValue(tempDataState);
   const humData = useRecoilValue(humDataState);
   const illData = useRecoilValue(illDataState);
   const soilData = useRecoilValue(soilDataState);
+  const [lang, setLang] = useLanguage();
+
   return (
     <>
       <Col>
         <Card hFull>
           <Flex alignItems="items-start">
-            <Text>tempurature</Text>
-            <BadgeDelta deltaType="unchanged" text="응애" />
+            <Text>{languages.temperaturecard[lang]}</Text>
+            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
             justifyContent="justify-start"
@@ -27,26 +31,56 @@ export default () => {
             spaceX="space-x-3"
             truncate={true}
           >
-            <Metric>{tempData[tempData.length - 1].temperature}</Metric>
+            <Metric>{tempData[tempData.length - 1].temperature}C°</Metric>
           </Flex>
         </Card>
       </Col>
       <Col>
         <Card hFull>
-          <Text>습도</Text>
-          <Metric>Humidity</Metric>
+          <Flex alignItems="items-start">
+            <Text>{languages.humiditycard[lang]}</Text>
+            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
+          </Flex>
+          <Flex
+            justifyContent="justify-start"
+            alignItems="items-baseline"
+            spaceX="space-x-3"
+            truncate={true}
+          >
+            <Metric>{humData[humData.length - 1].humidity}%</Metric>
+          </Flex>
         </Card>
       </Col>
       <Col>
         <Card hFull>
-          <Text>조도</Text>
-          <Metric>Illuminance</Metric>
+          <Flex alignItems="items-start">
+            <Text>{languages.illuminancecard[lang]}</Text>
+            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
+          </Flex>
+          <Flex
+            justifyContent="justify-start"
+            alignItems="items-baseline"
+            spaceX="space-x-3"
+            truncate={true}
+          >
+            <Metric>{illData[illData.length - 1].illuminance}lx</Metric>
+          </Flex>
         </Card>
       </Col>
       <Col>
         <Card hFull>
-          <Text>토양 습도</Text>
-          <Metric>Soil Humidity</Metric>
+          <Flex alignItems="items-start">
+            <Text>{languages.soilhumiditycard[lang]}</Text>
+            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
+          </Flex>
+          <Flex
+            justifyContent="justify-start"
+            alignItems="items-baseline"
+            spaceX="space-x-3"
+            truncate={true}
+          >
+            <Metric>{soilData[soilData.length - 1].soilhumidity}%</Metric>
+          </Flex>
         </Card>
       </Col>
     </>

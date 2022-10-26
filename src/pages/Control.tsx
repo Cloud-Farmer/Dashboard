@@ -3,6 +3,7 @@ import { Col, Card, Metric, Toggle, ToggleItem } from '@tremor/react';
 import { useState } from 'react';
 import { controlSensorAPI, controlSensorStatusAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
+import { languages } from '../util';
 
 const Control = () => {
   const initValue = {
@@ -16,7 +17,7 @@ const Control = () => {
   const [value, setValue] = useState(initValue);
 
   useEffect(() => {
-    controlSensorStatusAPI(setValue);
+    console.log('창문 상태 ' + controlSensorStatusAPI(1, 'window'));
   }, []);
 
   return (
@@ -24,7 +25,7 @@ const Control = () => {
       <Col>
         <Card hFull>
           <>
-            <Metric>Window (창문)</Metric>
+            <Metric>{languages.windowlang[lang]}</Metric>
             <Toggle
               color="blue"
               defaultValue={value.window}
@@ -41,7 +42,7 @@ const Control = () => {
       </Col>
       <Col>
         <Card hFull>
-          <Metric>Water pump (급수펌프)</Metric>
+          <Metric>{languages.pumplang[lang]}</Metric>
           <Toggle
             color="blue"
             defaultValue={value.pump}
@@ -57,7 +58,7 @@ const Control = () => {
       </Col>
       <Col>
         <Card hFull>
-          <Metric>Fan (팬)</Metric>
+          <Metric>{languages.fanlang[lang]}</Metric>
           <Toggle
             color="blue"
             defaultValue={value.fan}
@@ -73,7 +74,7 @@ const Control = () => {
       </Col>
       <Col>
         <Card hFull>
-          <Metric>LED (조명)</Metric>
+          <Metric>{languages.ledlang[lang]}</Metric>
           <Toggle
             color="blue"
             defaultValue={value.led}
