@@ -24,6 +24,10 @@ const languages: LanguageTextList = {
     ko: '새로고침',
     en: 'Refresh',
   },
+  logo: {
+    ko: '스마트팜 대시보드 by CloudFarmer',
+    en: 'SmartFarm Dashboard by CloudFarmer',
+  },
 };
 
 export default languages;

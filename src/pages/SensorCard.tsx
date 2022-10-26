@@ -1,13 +1,34 @@
 import React from 'react';
-import { Col, Card, Text, Metric } from '@tremor/react';
+import { Col, Card, Text, Metric, Flex, BadgeDelta } from '@tremor/react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  humDataState,
+  illDataState,
+  soilDataState,
+  tempDataState,
+} from '../state/atoms';
 
 export default () => {
+  const tempData = useRecoilValue(tempDataState);
+  const humData = useRecoilValue(humDataState);
+  const illData = useRecoilValue(illDataState);
+  const soilData = useRecoilValue(soilDataState);
   return (
     <>
       <Col>
         <Card hFull>
-          <Text>온도</Text>
-          <Metric>Temperature</Metric>
+          <Flex alignItems="items-start">
+            <Text>tempurature</Text>
+            <BadgeDelta deltaType="unchanged" text="응애" />
+          </Flex>
+          <Flex
+            justifyContent="justify-start"
+            alignItems="items-baseline"
+            spaceX="space-x-3"
+            truncate={true}
+          >
+            <Metric>{tempData[tempData.length - 1].temperature}</Metric>
+          </Flex>
         </Card>
       </Col>
       <Col>

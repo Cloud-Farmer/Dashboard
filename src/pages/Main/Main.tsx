@@ -29,11 +29,14 @@ const Main = () => {
 
   return (
     <>
+      <h1>{`${languages.logo[lang]}`}</h1>
+      <h1>{`${languages.header[lang]}`}</h1>
       <div
         style={{
           justifyContent: 'space-between',
           width: '100%',
           display: 'flex',
+          marginBottom: '10px',
         }}
       >
         <Toggle color="zinc" defaultValue={lang} handleSelect={setLang}>
@@ -41,16 +44,14 @@ const Main = () => {
           <ToggleItem value="ko" text="🇰🇷 한국어" />
         </Toggle>
         <Button
-          text="Refresh"
+          text={languages.btn_refresh[lang]}
           iconPosition="left"
           size="sm"
           color="blue"
           importance="primary"
           handleClick={onRefresh}
-          marginTop="mt-0"
         />
       </div>
-      <h1>{`${languages.header[lang]}`}</h1>
       <ColGrid
         numCols={1}
         numColsSm={2}

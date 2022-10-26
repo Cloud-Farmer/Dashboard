@@ -19,7 +19,7 @@ const useLanguage = (): LanguageHookType => {
         setData(lang);
         lang && setCookie('language', lang);
       } else {
-        setData(data);
+        setData(defaultLanguage);
       }
     },
     [data],

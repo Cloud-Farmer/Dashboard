@@ -4,12 +4,12 @@ import { AxiosResponse } from './../../node_modules/axios/index.d';
 import axios from 'axios';
 import { API_URL } from '../constants/constants';
 import { SetterOrUpdater } from 'recoil';
-import sensorDataList from './sensorDataList.json';
-import { LanguageType } from '../type';
+import { ControlSensorType, LanguageType, SensorType } from '../type';
 import { languages } from '../util';
+import { Dispatch, SetStateAction } from 'react';
 
 const sensorurl = '/sensor';
-const controlurl = '/controlurl';
+const controlurl = '/actuator';
 
 const headerConfig = {
   'Content-Type': 'application/json',
@@ -26,19 +26,14 @@ const handleError = (error: any) => {
   }
 };
 
-interface ChartDataType {
-  time: string;
-  temperature: number;
-}
-
-const formatDataToChart = (data: any, lang?: 'ko' | 'en') => {
-  const formattedData = new Array<ChartDataType>();
+const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
+  const formattedData = new Array<any>();
   data[0].series[0].values.map((value: any) => {
     formattedData.push({
       time: new Date(value[0]).toLocaleString(
         lang === 'ko' ? 'ko-KR' : 'en-US',
       ),
-      temperature: Number(value[2]),
+      [sensor]: Number(value[2]),
     });
   });
   return formattedData;
@@ -47,8 +42,8 @@ const formatDataToChart = (data: any, lang?: 'ko' | 'en') => {
 const getSensorAPI = (
   kit_id: number,
   limit: number,
-  sensor: 'temperature' | '',
-  setChartData: SetterOrUpdater<Array<ChartDataType>>,
+  sensor: SensorType,
+  setChartData: SetterOrUpdater<Array<any>>,
   lang?: LanguageType,
 ) => {
   axios
@@ -57,30 +52,44 @@ const getSensorAPI = (
       headers: headerConfig,
     })
     .then((response: AxiosResponse) => {
-      setChartData(formatDataToChart(response.data, lang));
+      setChartData(formatData(response.data, sensor, lang));
     })
     .catch((error) => {
       handleError(error);
     });
 };
 
-const getLocalsensorAPI = (
-  setChartData: SetterOrUpdater<Array<ChartDataType>>,
-  lang?: LanguageType,
-) => setChartData(formatDataToChart(sensorDataList, lang));
-
-const controlSensorAPI = (data: any, lang: LanguageType) => {
+const controlSensorAPI = (
+  availiable: boolean,
+  kitid: number,
+  sensor: ControlSensorType,
+  lang: LanguageType,
+) => {
   axios
-    .post(API_URL + controlurl, data, {
-      data,
+    .post(API_URL + controlurl, null, {
+      params: { availiable: availiable ? 1 : 0, kitid, sensor },
       headers: headerConfig,
     })
     .then((response: AxiosResponse) => {
-      toast.info(languages.result_send[lang]);
+      toast.info(languages.result_send[lang] + '\n' + response.data);
     })
     .catch((error) => {
       handleError(error);
     });
 };
 
-export { getSensorAPI, getLocalsensorAPI };
+const controlSensorStatusAPI = (setStatus: Dispatch<any>) => {
+  axios
+    .get(API_URL + 'dd', {
+      headers: headerConfig,
+    })
+    .then((response: AxiosResponse) => {
+      // setStatus(Boolean(response.data));
+      console.log(response.data);
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+};
+
+export { getSensorAPI, controlSensorAPI, controlSensorStatusAPI };
