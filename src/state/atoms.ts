@@ -5,4 +5,8 @@ const chartTypeState = atom({
   default: 'area',
 });
 
-export { chartTypeState };
+const tempDataState = atom({
+  key: 'chartData',
+  default: [{ time: '2022-10-25T12:44:36.732Z', temperature: 36 }],
+});
+export { chartTypeState, tempDataState };
