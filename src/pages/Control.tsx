@@ -17,7 +17,7 @@ const Control = () => {
   const [value, setValue] = useState(initValue);
 
   useEffect(() => {
-    console.log('창문 상태 ' + controlSensorStatusAPI(1, 'window'));
+    console.log('창문 상태 ' + controlSensorStatusAPI(1, 'window', setValue));
   }, []);
 
   return (

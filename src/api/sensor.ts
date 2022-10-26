@@ -78,15 +78,20 @@ const controlSensorAPI = (
     });
 };
 
-const controlSensorStatusAPI = (kit_id: number, sensor: ControlSensorType) => {
+const controlSensorStatusAPI = (
+  kit_id: number,
+  sensor: ControlSensorType,
+  setDataFunc: Dispatch<SetStateAction<any>>,
+) => {
   axios
     .get(API_URL + controlurl, {
       params: { kit_id, sensor },
       headers: headerConfig,
     })
     .then((response: AxiosResponse) => {
-      console.log(sensor);
-      return response.data;
+      setDataFunc((prevState: any) => {
+        return { ...prevState, [sensor]: Boolean(response.data) };
+      });
     })
     .catch((error) => {
       handleError(error);
