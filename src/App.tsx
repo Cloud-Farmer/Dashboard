@@ -1,5 +1,4 @@
 import react from 'react';
-import reactLogo from './assets/react.svg';
 import '@tremor/react/dist/esm/tremor.css';
 import Main from './pages/Main/Main';
 

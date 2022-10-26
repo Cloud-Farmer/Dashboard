@@ -15,16 +15,14 @@ import { useLanguage } from '../../hooks';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
+
   return (
     <>
-      <Toggle
-        color="zinc"
-        defaultValue={lang}
-        handleSelect={(value: 'en' | 'ko') => setLang(value)}
-      >
+      <Toggle color="zinc" defaultValue={lang} handleSelect={setLang}>
         <ToggleItem value="en" text="ENGLISH" />
         <ToggleItem value="ko" text="KOREAN" />
-      </Toggle>{' '}
+      </Toggle>
+      <h1>{`${lang === 'en' ? 'Hello world!' : '안녕하세요!'}`}</h1>
       <ColGrid
         numCols={1}
         numColsSm={2}
