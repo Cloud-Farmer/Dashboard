@@ -1,13 +1,11 @@
 import { useCallback, useState } from 'react';
+import { LanguageHookType, LanguageType } from '../type';
 import { getCookie, setCookie } from '../util/cookie';
 
-type Lang = 'en' | 'ko';
-type LangInputProps = [Lang, (lang: Lang) => void];
+const defaultLanguage: LanguageType = 'en';
 
-const defaultLanguage: Lang = 'en';
-
-const useLanguage = (): LangInputProps => {
-  const [data, setData] = useState<Lang>(defaultLanguage);
+const useLanguage = (): LanguageHookType => {
+  const [data, setData] = useState<LanguageType>(defaultLanguage);
 
   const getLanguageCookie =
     getCookie('language') === 'en' || getCookie('language') === 'ko'
@@ -16,10 +14,13 @@ const useLanguage = (): LangInputProps => {
 
   if (getLanguageCookie !== data) setData(getLanguageCookie);
   const handler = useCallback(
-    (lang: Lang) => {
-      setData(lang);
-      setCookie('language', lang);
-      console.log('language change: ' + lang);
+    (lang?: LanguageType) => {
+      if (lang !== undefined) {
+        setData(lang);
+        lang && setCookie('language', lang);
+      } else {
+        setData(data);
+      }
     },
     [data],
   );

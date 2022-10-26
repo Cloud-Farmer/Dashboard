@@ -5,8 +5,11 @@ import axios from 'axios';
 import { API_URL } from '../constants/constants';
 import { SetterOrUpdater } from 'recoil';
 import sensorDataList from './sensorDataList.json';
+import { LanguageType } from '../type';
+import { languages } from '../util';
 
 const sensorurl = '/sensor';
+const controlurl = '/controlurl';
 
 const headerConfig = {
   'Content-Type': 'application/json',
@@ -41,12 +44,12 @@ const formatDataToChart = (data: any, lang?: 'ko' | 'en') => {
   return formattedData;
 };
 
-const sensorAPI = (
+const getSensorAPI = (
   kit_id: number,
   limit: number,
   sensor: 'temperature' | '',
   setChartData: SetterOrUpdater<Array<ChartDataType>>,
-  lang?: 'ko' | 'en',
+  lang?: LanguageType,
 ) => {
   axios
     .get(API_URL + sensorurl, {
@@ -63,7 +66,21 @@ const sensorAPI = (
 
 const getLocalsensorAPI = (
   setChartData: SetterOrUpdater<Array<ChartDataType>>,
-  lang?: 'ko' | 'en',
+  lang?: LanguageType,
 ) => setChartData(formatDataToChart(sensorDataList, lang));
 
-export { sensorAPI, getLocalsensorAPI };
+const controlSensorAPI = (data: any, lang: LanguageType) => {
+  axios
+    .post(API_URL + controlurl, data, {
+      data,
+      headers: headerConfig,
+    })
+    .then((response: AxiosResponse) => {
+      toast.info(languages.result_send[lang]);
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+};
+
+export { getSensorAPI, getLocalsensorAPI };

@@ -1,7 +1,7 @@
 import { AreaChart } from '@tremor/react';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { getLocalsensorAPI, sensorAPI } from '../api/sensor';
+import { getLocalsensorAPI, getSensorAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
 import { tempDataState } from '../state/atoms';
 
@@ -10,7 +10,7 @@ export default () => {
   const [lang, setLang] = useLanguage();
 
   useEffect(() => {
-    // sensorAPI(1, 10, 'temperature', setTempData, lang);
+    // getSensorAPI(1, 10, 'temperature', setTempData, lang);
     getLocalsensorAPI(setTempData, lang);
   }, [lang]);
 

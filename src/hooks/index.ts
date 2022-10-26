@@ -1,3 +1,3 @@
-import useLanguage from './useLang';
+import useLanguage from './useLanguage';
 
 export { useLanguage };

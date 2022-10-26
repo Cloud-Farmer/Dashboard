@@ -7,6 +7,7 @@ import {
   Metric,
   Toggle,
   ToggleItem,
+  Button,
 } from '@tremor/react';
 //import TestChart1 from '../Example/TestChart1';
 //import TextChart2 from '../Example/TextChart2';
@@ -22,12 +23,33 @@ import APIChart from '../APIChart';
 const Main = () => {
   const [lang, setLang] = useLanguage();
 
+  const onRefresh = () => {
+    setLang();
+  };
+
   return (
     <>
-      <Toggle color="zinc" defaultValue={lang} handleSelect={setLang}>
-        <ToggleItem value="en" text="🇬🇧 English" />
-        <ToggleItem value="ko" text="🇰🇷 한국어" />
-      </Toggle>
+      <div
+        style={{
+          justifyContent: 'space-between',
+          width: '100%',
+          display: 'flex',
+        }}
+      >
+        <Toggle color="zinc" defaultValue={lang} handleSelect={setLang}>
+          <ToggleItem value="en" text="🇬🇧 English" />
+          <ToggleItem value="ko" text="🇰🇷 한국어" />
+        </Toggle>
+        <Button
+          text="Refresh"
+          iconPosition="left"
+          size="sm"
+          color="blue"
+          importance="primary"
+          handleClick={onRefresh}
+          marginTop="mt-0"
+        />
+      </div>
       <h1>{`${languages.header[lang]}`}</h1>
       <ColGrid
         numCols={1}
