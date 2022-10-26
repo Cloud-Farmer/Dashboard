@@ -127,7 +127,7 @@ const Control = () => {
   return (
     <>
       <Col>
-        <Card>
+        <Card hFull>
           <>
             <Metric>Window (창문)</Metric>
             <Toggle
@@ -143,7 +143,7 @@ const Control = () => {
         </Card>
       </Col>
       <Col>
-        <Card>
+        <Card hFull>
           <Metric>Water pump (급수펌프)</Metric>
           <Toggle
             color="blue"
@@ -157,7 +157,7 @@ const Control = () => {
         </Card>
       </Col>
       <Col>
-        <Card>
+        <Card hFull>
           <Metric>Fan (팬)</Metric>
           <Toggle
             color="blue"
@@ -171,7 +171,7 @@ const Control = () => {
         </Card>
       </Col>
       <Col>
-        <Card>
+        <Card hFull>
           <Metric>LED (조명)</Metric>
           <Toggle
             color="blue"

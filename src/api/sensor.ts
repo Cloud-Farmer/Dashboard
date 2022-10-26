@@ -4,6 +4,7 @@ import { AxiosResponse } from './../../node_modules/axios/index.d';
 import axios from 'axios';
 import { API_URL } from '../constants/constants';
 import { SetterOrUpdater } from 'recoil';
+import sensorDataList from './sensorDataList.json';
 
 const sensorurl = '/sensor';
 
@@ -27,13 +28,14 @@ interface ChartDataType {
   temperature: number;
 }
 
-const formatDataToChart = (response: AxiosResponse) => {
+const formatDataToChart = (data: any, lang?: 'ko' | 'en') => {
   const formattedData = new Array<ChartDataType>();
-  response.data.map((data: any) => {
-    data.series.map((serie: any) => {
-      serie.values.map((value: any) => {
-        formattedData.push({ time: value[0], temperature: Number(value[2]) });
-      });
+  data[0].series[0].values.map((value: any) => {
+    formattedData.push({
+      time: new Date(value[0]).toLocaleString(
+        lang === 'ko' ? 'ko-KR' : 'en-US',
+      ),
+      temperature: Number(value[2]),
     });
   });
   return formattedData;
@@ -44,6 +46,7 @@ const sensorAPI = (
   limit: number,
   sensor: 'temperature' | '',
   setChartData: SetterOrUpdater<Array<ChartDataType>>,
+  lang?: 'ko' | 'en',
 ) => {
   axios
     .get(API_URL + sensorurl, {
@@ -51,11 +54,16 @@ const sensorAPI = (
       headers: headerConfig,
     })
     .then((response: AxiosResponse) => {
-      setChartData(formatDataToChart(response));
+      setChartData(formatDataToChart(response.data, lang));
     })
     .catch((error) => {
       handleError(error);
     });
 };
 
-export { sensorAPI };
+const getLocalsensorAPI = (
+  setChartData: SetterOrUpdater<Array<ChartDataType>>,
+  lang?: 'ko' | 'en',
+) => setChartData(formatDataToChart(sensorDataList, lang));
+
+export { sensorAPI, getLocalsensorAPI };

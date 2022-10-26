@@ -25,8 +25,8 @@ const Main = () => {
   return (
     <>
       <Toggle color="zinc" defaultValue={lang} handleSelect={setLang}>
-        <ToggleItem value="en" text="ENGLISH" />
-        <ToggleItem value="ko" text="KOREAN" />
+        <ToggleItem value="en" text="🇬🇧 English" />
+        <ToggleItem value="ko" text="🇰🇷 한국어" />
       </Toggle>
       <h1>{`${languages.header[lang]}`}</h1>
       <ColGrid
@@ -37,7 +37,9 @@ const Main = () => {
         gapY="gap-y-2"
       >
         <Col numColSpan={1} numColSpanLg={4}>
-          <APIChart />
+          <Card hFull>
+            <APIChart />
+          </Card>
         </Col>
         <SensorCard />
         <Control />

@@ -1,17 +1,18 @@
 import { AreaChart } from '@tremor/react';
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { sensorAPI } from '../api/sensor';
+import { getLocalsensorAPI, sensorAPI } from '../api/sensor';
+import { useLanguage } from '../hooks';
 import { tempDataState } from '../state/atoms';
 
 export default () => {
   const [tempData, setTempData] = useRecoilState(tempDataState);
-
-  type dataType = 'temperature' | '';
+  const [lang, setLang] = useLanguage();
 
   useEffect(() => {
-    sensorAPI(1, 10, 'temperature', setTempData);
-  }, []);
+    // sensorAPI(1, 10, 'temperature', setTempData, lang);
+    getLocalsensorAPI(setTempData, lang);
+  }, [lang]);
 
   return (
     <AreaChart
@@ -21,7 +22,6 @@ export default () => {
       height="h-96"
       yAxisWidth="w-14"
       colors={['blue']}
-      // valueFormatter={formatters[chart]}
       marginTop="mt-4"
     />
   );

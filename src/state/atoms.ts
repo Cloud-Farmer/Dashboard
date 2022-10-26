@@ -7,6 +7,12 @@ const chartTypeState = atom({
 
 const tempDataState = atom({
   key: 'chartData',
-  default: [{ time: '2022-10-25T12:44:36.732Z', temperature: 36 }],
+  default: [
+    {
+      time: new Date('2022-10-25T12:44:36.732Z').toLocaleString('en-US'),
+      temperature: 36,
+    },
+  ],
 });
+
 export { chartTypeState, tempDataState };
