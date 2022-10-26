@@ -15,19 +15,20 @@ import {
 import SensorCard from '../SensorCard';
 import Control from '../Control';
 import Chart from '../Chart';
+import { useLanguage } from '../../hooks';
+import { languages } from '../../util';
+import APIChart from '../APIChart';
 
 const Main = () => {
-  // const [lang, setLang] = useLanguage();
+  const [lang, setLang] = useLanguage();
+
   return (
     <>
-      {/* <Toggle
-        color="zinc"
-        defaultValue={lang}
-        handleSelect={(value: 'en' | 'ko') => setLang(value)}
-      > */}
-      {/* <ToggleItem value="en" text="ENGLISH" />
-        <ToggleItem value="ko" text="KOREAN" /> */}
-      {/* </Toggle>{' '} */}
+      <Toggle color="zinc" defaultValue={lang} handleSelect={setLang}>
+        <ToggleItem value="en" text="🇬🇧 English" />
+        <ToggleItem value="ko" text="🇰🇷 한국어" />
+      </Toggle>
+      <h1>{`${languages.header[lang]}`}</h1>
       <ColGrid
         numCols={1}
         numColsSm={2}
@@ -36,7 +37,9 @@ const Main = () => {
         gapY="gap-y-2"
       >
         <Col numColSpan={1} numColSpanLg={4}>
-          <Chart />
+          <Card hFull>
+            <APIChart />
+          </Card>
         </Col>
         <SensorCard />
         <Control />

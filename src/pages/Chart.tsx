@@ -2,6 +2,8 @@ import { Toggle, Card, AreaChart, LineChart, ToggleItem } from '@tremor/react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API_URL } from '../constants/constants';
+import { useLanguage } from '../hooks';
+import { languages } from '../util';
 
 const sensorchart = [
   {
@@ -50,6 +52,7 @@ const sensorchart = [
 
 export default () => {
   const [showCard, setShowCard] = useState(true);
+  const [lang, setLang] = useLanguage();
   const [chart, setChart] = useState('Temperature');
 
   const dollarFormatter = (value: number) =>
@@ -62,6 +65,7 @@ export default () => {
     Illuminance: dollarFormatter,
     SoilHumidity: dollarFormatter,
   };
+
   // const [chartdata, setChartdata] = useState(null);
   // const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null);
@@ -130,7 +134,7 @@ export default () => {
         handleSelect={(value) => setChart(value)}
         marginTop="mt-3"
       >
-        <ToggleItem value="All" text="All Chart" />
+        <ToggleItem value="All" text={languages.allchart[lang]} />
         <ToggleItem value="Temperature" text="Temperature Chart" />
         <ToggleItem value="Humidity" text="Humidity Chart" />
         <ToggleItem value="Illuminance" text="Illuminance Chart" />
