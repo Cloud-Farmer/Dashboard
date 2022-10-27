@@ -41,14 +41,14 @@ const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
 
 const getSensorAPI = (
   kit_id: number,
-  limit: number,
   sensor: SensorType,
+  date: string,
   setChartData: SetterOrUpdater<Array<any>>,
   lang?: LanguageType,
 ) => {
   axios
     .get(API_URL + sensorurl, {
-      params: { kit_id, limit, sensor },
+      params: { date, kit_id, sensor },
       headers: headerConfig,
     })
     .then((response: AxiosResponse) => {
@@ -60,14 +60,15 @@ const getSensorAPI = (
 };
 
 const controlSensorAPI = (
-  availiable: boolean,
+  available: boolean,
   kitid: number,
   sensor: ControlSensorType,
   lang: LanguageType,
 ) => {
+  console.log(available + ' ' + kitid + ' ' + sensor);
   axios
     .post(API_URL + controlurl, null, {
-      params: { availiable: availiable ? 1 : 0, kitid, sensor },
+      params: { available: available ? 1 : 0, kitid, sensor },
       headers: headerConfig,
     })
     .then((response: AxiosResponse) => {

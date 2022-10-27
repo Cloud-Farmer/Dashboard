@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
-import { AreaChart, LineChart, Toggle, ToggleItem } from '@tremor/react';
+import {
+  AreaChart,
+  LineChart,
+  Toggle,
+  ToggleItem,
+  Dropdown,
+  DropdownItem,
+} from '@tremor/react';
 import { useRecoilState } from 'recoil';
 import { getSensorAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
@@ -8,34 +15,43 @@ import {
   illDataState,
   soilDataState,
   tempDataState,
+  dateDataState,
 } from '../state/atoms';
 import { SensorType } from '../type';
 import { languages } from '../util';
+import useKitId from '../hooks/useKitId';
 
 export default () => {
   const [tempData, setTempData] = useRecoilState(tempDataState);
   const [humData, setHumData] = useRecoilState(humDataState);
   const [illData, setIllData] = useRecoilState(illDataState);
   const [soilData, setSoilData] = useRecoilState(soilDataState);
+  const [dateData, setDate] = useRecoilState(dateDataState);
 
   const [chart, setChart] = useState('temperature');
   const [showCard, setShowCard] = useState(true);
   const [lang, setLang] = useLanguage();
+  const [kit, setKit] = useState(1);
+  const [kitCookie, setKitCookie] = useKitId();
+  const [day, setDay] = useState('m');
 
   useEffect(() => {
-    getSensorAPI(1, 10, 'temperature', setTempData, lang);
-    getSensorAPI(1, 10, 'humidity', setHumData, lang);
-    getSensorAPI(1, 10, 'illuminance', setIllData, lang);
-    getSensorAPI(1, 10, 'soilhumidity', setSoilData, lang);
-  }, [lang]);
+    getSensorAPI(kit, 'temperature', dateData[0].m, setTempData, lang);
+    getSensorAPI(kit, 'humidity', dateData[0].m, setHumData, lang);
+    getSensorAPI(kit, 'illuminance', dateData[0].m, setIllData, lang);
+    getSensorAPI(kit, 'soilhumidity', dateData[0].m, setSoilData, lang);
+  }, [lang, kit]);
 
-  const tempFormatter = (value: number) => value; //+ 'C';
+  const tempFormatter = (value: number) => value + 'C';
+  const humFormatter = (value: number) => value + '%';
+  const illFormatter = (value: number) => value + 'lx';
+  const soilFormatter = (value: number) => value + '%';
 
   const formatters: { [key: string]: any } = {
     temperature: tempFormatter,
-    humidity: tempFormatter,
-    illuminance: tempFormatter,
-    soilhumidity: tempFormatter,
+    humidity: humFormatter,
+    illuminance: illFormatter,
+    soilhumidity: soilFormatter,
   };
 
   const chartData: { [key: string]: any } = {
@@ -44,9 +60,49 @@ export default () => {
     illuminance: illData,
     soilhumidity: soilData,
   };
-
   return (
     <>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {/* <Dropdown
+          placeholder="Select..."
+          defaultValue={dateData}
+          handleSelect={(value) => setDate(value)}
+          maxWidth="max-w-xs"
+          marginTop="mt-0"
+        >
+          <DropdownItem value="1m" text="minute" />
+          <DropdownItem value="1h" text="hour" />
+          <DropdownItem value="1d" text="day" />
+          <DropdownItem value="1w" text="week" />
+        </Dropdown> */}
+        <Toggle
+          color="zinc"
+          defaultValue={kit}
+          handleSelect={(value) => {
+            setKit(value);
+            setKitCookie(value);
+            getSensorAPI(
+              value,
+              'temperature',
+              dateData[0].m,
+              setTempData,
+              lang,
+            );
+            getSensorAPI(value, 'humidity', dateData[0].m, setHumData, lang);
+            getSensorAPI(value, 'illuminance', dateData[0].m, setIllData, lang);
+            getSensorAPI(
+              value,
+              'soilhumidity',
+              dateData[0].m,
+              setSoilData,
+              lang,
+            );
+          }}
+        >
+          <ToggleItem value={1} text="KIT1" />
+          <ToggleItem value={2} text="KIT2" />
+        </Toggle>
+      </div>
       {showCard ? (
         <AreaChart
           data={chartData[chart]}

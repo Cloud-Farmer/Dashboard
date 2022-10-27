@@ -44,6 +44,14 @@ const soilDataState = atom({
     },
   ],
 });
+const dateDataState = atom({
+  key: 'dateData',
+  default: [
+    {
+      m: '1h',
+    },
+  ],
+});
 
 export {
   chartTypeState,
@@ -51,4 +59,5 @@ export {
   humDataState,
   illDataState,
   soilDataState,
+  dateDataState,
 };

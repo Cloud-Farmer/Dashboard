@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ColGrid,
   Col,
@@ -22,7 +22,7 @@ import APIChart from '../APIChart';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
-
+  const [key, setKey] = useState(1);
   const onRefresh = () => {
     setLang();
   };
@@ -30,7 +30,7 @@ const Main = () => {
   return (
     <>
       <h1>{`${languages.logo[lang]}`}</h1>
-      <h1>{`${languages.header[lang]}`}</h1>
+      <h2>{`${languages.header[lang]}`}</h2>
       <div
         style={{
           justifyContent: 'space-between',

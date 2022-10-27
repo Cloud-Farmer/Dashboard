@@ -9,8 +9,8 @@ interface LanguageTextList {
 
 const languages: LanguageTextList = {
   header: {
-    ko: '키트 1 안녕하세요!',
-    en: 'Hello Kit 1!',
+    ko: '안녕하세요!',
+    en: 'Hello!',
   },
   allchart: {
     ko: '모든 차트',
@@ -25,8 +25,8 @@ const languages: LanguageTextList = {
     en: 'Refresh',
   },
   logo: {
-    ko: '스마트팜 대시보드 by CloudFarmer',
-    en: 'SmartFarm Dashboard by CloudFarmer',
+    ko: '스마트팜 대시보드',
+    en: 'SmartFarm Dashboard',
   },
   average: {
     ko: '평균',
