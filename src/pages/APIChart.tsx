@@ -33,14 +33,16 @@ export default () => {
   const [lang, setLang] = useLanguage();
   const [kit, setKit] = useState(1);
   const [kitCookie, setKitCookie] = useKitId();
-  const [day, setDay] = useState('m');
+  const [day, setDay] = useState(['1m', '1h', '1d', '1w']);
+  const [num, setNum] = useState(0);
 
   useEffect(() => {
-    getSensorAPI(kit, 'temperature', dateData[0].m, setTempData, lang);
-    getSensorAPI(kit, 'humidity', dateData[0].m, setHumData, lang);
-    getSensorAPI(kit, 'illuminance', dateData[0].m, setIllData, lang);
-    getSensorAPI(kit, 'soilhumidity', dateData[0].m, setSoilData, lang);
-  }, [lang, kit]);
+    getSensorAPI(kit, 'temperature', day[num], setTempData, lang);
+    getSensorAPI(kit, 'humidity', day[num], setHumData, lang);
+    getSensorAPI(kit, 'illuminance', day[num], setIllData, lang);
+    getSensorAPI(kit, 'soilhumidity', day[num], setSoilData, lang);
+  }, [lang, kit, num]);
+  //console.log(num);
 
   const tempFormatter = (value: number) => value + 'C';
   const humFormatter = (value: number) => value + '%';
@@ -63,40 +65,28 @@ export default () => {
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* <Dropdown
+        <Dropdown
           placeholder="Select..."
-          defaultValue={dateData}
-          handleSelect={(value) => setDate(value)}
+          defaultValue={1}
+          handleSelect={(value) => setNum(value)}
           maxWidth="max-w-xs"
           marginTop="mt-0"
         >
-          <DropdownItem value="1m" text="minute" />
-          <DropdownItem value="1h" text="hour" />
-          <DropdownItem value="1d" text="day" />
-          <DropdownItem value="1w" text="week" />
-        </Dropdown> */}
+          <DropdownItem value={0} text="minute" />
+          <DropdownItem value={1} text="hour" />
+          <DropdownItem value={2} text="day" />
+          <DropdownItem value={3} text="week" />
+        </Dropdown>
         <Toggle
           color="zinc"
           defaultValue={kit}
           handleSelect={(value) => {
             setKit(value);
             setKitCookie(value);
-            getSensorAPI(
-              value,
-              'temperature',
-              dateData[0].m,
-              setTempData,
-              lang,
-            );
-            getSensorAPI(value, 'humidity', dateData[0].m, setHumData, lang);
-            getSensorAPI(value, 'illuminance', dateData[0].m, setIllData, lang);
-            getSensorAPI(
-              value,
-              'soilhumidity',
-              dateData[0].m,
-              setSoilData,
-              lang,
-            );
+            getSensorAPI(value, 'temperature', day[num], setTempData, lang);
+            getSensorAPI(value, 'humidity', day[num], setHumData, lang);
+            getSensorAPI(value, 'illuminance', day[num], setIllData, lang);
+            getSensorAPI(value, 'soilhumidity', day[num], setSoilData, lang);
           }}
         >
           <ToggleItem value={1} text="KIT1" />
