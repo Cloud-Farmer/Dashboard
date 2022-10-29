@@ -21,7 +21,7 @@ import { SensorType } from '../type';
 import { languages } from '../util';
 import useKitId from '../hooks/useKitId';
 
-export default () => {
+export default (props: any) => {
   const [tempData, setTempData] = useRecoilState(tempDataState);
   const [humData, setHumData] = useRecoilState(humDataState);
   const [illData, setIllData] = useRecoilState(illDataState);
@@ -42,7 +42,7 @@ export default () => {
     getSensorAPI(kit, 'illuminance', day[num], setIllData, lang);
     getSensorAPI(kit, 'soilhumidity', day[num], setSoilData, lang);
   }, [lang, kit, num]);
-  //console.log(num);
+  //console.log(props.name); // 키트 넘버
 
   const tempFormatter = (value: number) => value + 'C';
   const humFormatter = (value: number) => value + '%';

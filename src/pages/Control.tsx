@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 import useKitId from '../hooks/useKitId';
 import { getCookie } from '../util/cookie';
 
-const Control = (props: any) => {
+const Control = () => {
   const initValue = {
     window: undefined,
     pump: undefined,
@@ -20,7 +20,7 @@ const Control = (props: any) => {
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(initValue);
   const [kitId, setKit] = useKitId(); //useKitId();
-  const [test, setTest] = useState(props);
+  //const [test, setTest] = useState(props);
 
   useEffect(() => {
     const callAPI = async () => {

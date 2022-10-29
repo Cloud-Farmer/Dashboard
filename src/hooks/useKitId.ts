@@ -8,6 +8,7 @@ const useKitId = (): any => {
     getCookie('kitId') === undefined ? '1' : getCookie('kitId');
 
   if (getKitIdCookie !== data) setData(getKitIdCookie);
+  
   const handler = useCallback(
     (kitId?: number) => {
       if (kitId !== undefined) {

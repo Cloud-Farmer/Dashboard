@@ -9,8 +9,8 @@ interface LanguageTextList {
 
 const languages: LanguageTextList = {
   header: {
-    ko: '안녕하세요!',
-    en: 'Hello!',
+    ko: ' 안녕하세요!',
+    en: ' Hello!',
   },
   allchart: {
     ko: '모든 차트',
