@@ -19,6 +19,7 @@ import Chart from '../Chart';
 import { useLanguage } from '../../hooks';
 import { languages } from '../../util';
 import APIChart from '../APIChart';
+import Weather from '../Weather';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
@@ -57,6 +58,7 @@ const Main = () => {
         </Col>
         <SensorCard />
         <Control />
+        <Weather />
       </ColGrid>
     </>
   );
