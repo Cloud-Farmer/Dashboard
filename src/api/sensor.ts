@@ -26,14 +26,26 @@ const handleError = (error: any) => {
   }
 };
 
+// const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
+//   const formattedData = new Array<any>();
+//   data[0].series[0].values.map((value: any) => {
+//     formattedData.push({
+//       time: new Date(value[0]).toLocaleString(
+//         lang === 'ko' ? 'ko-KR' : 'en-US',
+//       ),
+//       [sensor]: Number(value[2]),
+//     });
+//   });
+//   return formattedData;
+// };
 const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
   const formattedData = new Array<any>();
-  data[0].series[0].values.map((value: any) => {
+  data.map((item: any) => {
     formattedData.push({
-      time: new Date(value[0]).toLocaleString(
+      time: new Date(item.values._time).toLocaleString(
         lang === 'ko' ? 'ko-KR' : 'en-US',
       ),
-      [sensor]: Number(value[2]),
+      [sensor]: Number(item.values._value),
     });
   });
   return formattedData;
@@ -56,6 +68,7 @@ const getSensorAPI = (
     })
     .catch((error) => {
       handleError(error);
+      //console.log(error.response.data);
     });
 };
 

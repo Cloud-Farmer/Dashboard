@@ -22,7 +22,6 @@ import APIChart from '../APIChart';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
-  const [key, setKey] = useState(1);
   const onRefresh = () => {
     setLang();
   };
@@ -30,10 +29,7 @@ const Main = () => {
   return (
     <>
       <h1>{`${languages.logo[lang]}`}</h1>
-      <h2>
-        KIT {key}
-        {`${languages.header[lang]}`}
-      </h2>
+      <h2>{`${languages.header[lang]}`}</h2>
       <div
         style={{
           justifyContent: 'space-between',
@@ -46,22 +42,6 @@ const Main = () => {
           <ToggleItem value="en" text="🇬🇧 English" />
           <ToggleItem value="ko" text="🇰🇷 한국어" />
         </Toggle>
-        {/* <Button
-          text={languages.btn_refresh[lang]}
-          iconPosition="left"
-          size="sm"
-          color="blue"
-          importance="primary"
-          handleClick={onRefresh}
-        /> */}
-        <Toggle
-          color="zinc"
-          defaultValue={key}
-          handleSelect={(value) => setKey(value)}
-        >
-          <ToggleItem value={1} text="KIT 1" />
-          <ToggleItem value={2} text="KIT 2" />
-        </Toggle>
       </div>
       <ColGrid
         numCols={1}
@@ -72,7 +52,7 @@ const Main = () => {
       >
         <Col numColSpan={1} numColSpanLg={4}>
           <Card hFull>
-            <APIChart name={String(key)} />
+            <APIChart />
           </Card>
         </Col>
         <SensorCard />

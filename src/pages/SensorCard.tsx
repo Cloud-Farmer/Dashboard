@@ -22,7 +22,7 @@ export default () => {
       <Col>
         <Card hFull>
           <Flex alignItems="items-start">
-            <Text>{languages.temperaturecard[lang]}</Text>
+            <Metric>{languages.temperaturecard[lang]}</Metric>
             <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
@@ -31,14 +31,16 @@ export default () => {
             spaceX="space-x-3"
             truncate={true}
           >
-            <Metric>{tempData[tempData.length - 1].temperature}C°</Metric>
+            <Metric marginTop="mt-2">
+              {tempData[tempData.length - 1].temperature}C°
+            </Metric>
           </Flex>
         </Card>
       </Col>
       <Col>
         <Card hFull>
           <Flex alignItems="items-start">
-            <Text>{languages.humiditycard[lang]}</Text>
+            <Metric>{languages.humiditycard[lang]}</Metric>
             <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
@@ -47,14 +49,16 @@ export default () => {
             spaceX="space-x-3"
             truncate={true}
           >
-            <Metric>{humData[humData.length - 1].humidity}%</Metric>
+            <Metric marginTop="mt-2">
+              {humData[humData.length - 1].humidity}%
+            </Metric>
           </Flex>
         </Card>
       </Col>
       <Col>
         <Card hFull>
           <Flex alignItems="items-start">
-            <Text>{languages.illuminancecard[lang]}</Text>
+            <Metric>{languages.illuminancecard[lang]}</Metric>
             <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
@@ -63,14 +67,16 @@ export default () => {
             spaceX="space-x-3"
             truncate={true}
           >
-            <Metric>{illData[illData.length - 1].illuminance}lx</Metric>
+            <Metric marginTop="mt-2">
+              {illData[illData.length - 1].illuminance}lx
+            </Metric>
           </Flex>
         </Card>
       </Col>
       <Col>
         <Card hFull>
           <Flex alignItems="items-start">
-            <Text>{languages.soilhumiditycard[lang]}</Text>
+            <Metric>{languages.soilhumiditycard[lang]}</Metric>
             <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
@@ -79,7 +85,9 @@ export default () => {
             spaceX="space-x-3"
             truncate={true}
           >
-            <Metric>{soilData[soilData.length - 1].soilhumidity}%</Metric>
+            <Metric marginTop="mt-2">
+              {soilData[soilData.length - 1].soilHumidity}%
+            </Metric>
           </Flex>
         </Card>
       </Col>

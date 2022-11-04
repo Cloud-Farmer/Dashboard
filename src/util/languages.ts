@@ -45,7 +45,7 @@ const languages: LanguageTextList = {
     en: 'Illuminance',
   },
   soilhumiditycard: {
-    ko: '토양습도',
+    ko: '토양 습도',
     en: 'Soil Humidity',
   },
   windowlang: {
