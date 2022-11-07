@@ -1,4 +1,9 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import Cloudy from '../lottie/Cloudy';
+import Rain from '../lottie/Rain';
+import Snow from '../lottie/Snow';
+import Sunny from '../lottie/sunny';
 
 export default (): any => {
   const date = new Date();
@@ -7,57 +12,71 @@ export default (): any => {
   const day = ('0' + date.getDate()).slice(-2);
   const datestr = year + month + day;
 
-  //const hours = ('0' + date.getHours()).slice(-2);
   const hours = date.getHours() - 1 + '00';
-  //const minutes = ('0' + (date.getMinutes() - 40)).slice(-2);
-  const timestr = hours; // + minutes;
-  //console.log(timestr);
+  const timestr = hours;
+  const [change, setchange] = useState(0);
+  const [temp, settemp] = useState('');
 
-  let xhr = new XMLHttpRequest();
-  let url =
-    'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
-  let datakey =
-    'JmupyLFc3jeyKQbiRTPX64a3wwJ85VpAkTQqUBemPr4OrupP%2BTlBZTjb1GPzGbEEQmbYCzKLw0XlHZ0m4K1fFQ%3D%3D';
-  let queryParams =
-    '?' +
-    encodeURIComponent('serviceKey') +
-    '=' +
-    'JmupyLFc3jeyKQbiRTPX64a3wwJ85VpAkTQqUBemPr4OrupP%2BTlBZTjb1GPzGbEEQmbYCzKLw0XlHZ0m4K1fFQ%3D%3D';
-  queryParams +=
-    '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
-  queryParams +=
-    '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('20');
-  queryParams +=
-    '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON');
-  queryParams +=
-    '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent(datestr);
-  queryParams +=
-    '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent(timestr);
-  queryParams +=
-    '&' + encodeURIComponent('nx') + '=' + encodeURIComponent('95');
-  queryParams +=
-    '&' + encodeURIComponent('ny') + '=' + encodeURIComponent('77');
-  let weatherdata = url + queryParams;
-  xhr.open('GET', weatherdata);
+  let url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
-  xhr.onreadystatechange = function Weather() {
-    if (this.readyState == 4) {
-      //console.log(this.responseText);
-      let response = this.responseText;
-      let type = JSON.parse(response);
-      //console.log(type.response.body.items.item);
-      console.log('온도 :' + type.response.body.items.item[3].obsrValue);
-      //console.log('하늘상태 : ' + type.response.body.items.item[0].obsrValue);
-      if (type.response.body.items.item[0].obsrValue == '0') {
-        console.log('맑음');
-      } else if (type.response.body.items.item[0].obsrValue == '1') {
-        console.log('비');
-      } else if (type.response.body.items.item[0].obsrValue == '3') {
-        console.log('눈');
-      } else if (type.response.body.items.item[0].obsrValue == '5') {
-        console.log('흐림/빗방울');
-      }
-    }
+  const callWeather = async () => {
+    await axios
+      .get(url, {
+        params: {
+          ServiceKey:
+            'JmupyLFc3jeyKQbiRTPX64a3wwJ85VpAkTQqUBemPr4OrupP+TlBZTjb1GPzGbEEQmbYCzKLw0XlHZ0m4K1fFQ==',
+          pageNo: 1,
+          numOfRows: 20,
+          dataType: 'JSON',
+          base_date: datestr,
+          base_time: timestr,
+          nx: 95,
+          ny: 77,
+        },
+      })
+      .then((response) => {
+        setchange(response.data.response.body.items.item[0].obsrValue);
+        settemp(temp + response.data.response.body.items.item[3].obsrValue);
+      });
   };
-  xhr.send('');
+
+  useEffect(() => {
+    callWeather();
+  }, []);
+  useEffect(() => {
+    console.log(change);
+  }, [change]);
+  useEffect(() => {
+    console.log(temp);
+  }, [temp]);
+
+  if (change == 0) {
+    return (
+      <>
+        <Sunny />
+        <h1>{temp} C</h1>
+      </>
+    );
+  } else if (change == 1) {
+    return (
+      <>
+        <Rain />
+        <h1>{temp} C</h1>
+      </>
+    );
+  } else if (change == 3) {
+    return (
+      <>
+        <Snow />
+        <h1>{temp} C</h1>
+      </>
+    );
+  } else if (change == 5) {
+    return (
+      <>
+        <Cloudy />
+        <h1>{temp} C</h1>
+      </>
+    );
+  }
 };

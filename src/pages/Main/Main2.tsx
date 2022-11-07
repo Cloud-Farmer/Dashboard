@@ -57,7 +57,7 @@ const Main2 = () => {
           <ToggleItem value="ko" text="🇰🇷 한국어" />
         </Toggle>
       </div>
-      {selectedView == 1 ? (
+      {/* {selectedView == 1 ? (
         <>
           <h1>KIT 1</h1>
           <ColGrid
@@ -105,7 +105,7 @@ const Main2 = () => {
         </>
       ) : (
         <Main />
-      )}
+      )} */}
     </>
   );
 };

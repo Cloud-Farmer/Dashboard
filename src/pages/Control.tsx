@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 import useKitId from '../hooks/useKitId';
 import { getCookie } from '../util/cookie';
 
-const Control = () => {
+const Control = (): any => {
   const initValue = {
     window: undefined,
     pump: undefined,
@@ -39,80 +39,80 @@ const Control = () => {
   // }, [value]);
 
   return (
-    //!loading && (
-    <>
-      <Col>
-        <Card hFull>
-          <>
-            <Metric>{languages.windowlang[lang]}</Metric>
+    !loading && (
+      <>
+        <Col>
+          <Card hFull>
+            <>
+              <Metric>{languages.windowlang[lang]}</Metric>
+              <Toggle
+                color="blue"
+                defaultValue={value.window}
+                handleSelect={(value: boolean) => {
+                  const tempKitId = getCookie('kitId');
+                  controlSensorAPI(value, tempKitId, 'window', lang);
+                }}
+                marginTop="mt-5"
+              >
+                <ToggleItem value={true} text="On" />
+                <ToggleItem value={false} text="Off" />
+              </Toggle>
+            </>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <Metric>{languages.pumplang[lang]}</Metric>
             <Toggle
               color="blue"
-              defaultValue={value.window}
+              defaultValue={value.pump}
               handleSelect={(value: boolean) => {
                 const tempKitId = getCookie('kitId');
-                controlSensorAPI(value, tempKitId, 'window', lang);
+                controlSensorAPI(value, tempKitId, 'pump', lang);
               }}
               marginTop="mt-5"
             >
               <ToggleItem value={true} text="On" />
               <ToggleItem value={false} text="Off" />
             </Toggle>
-          </>
-        </Card>
-      </Col>
-      <Col>
-        <Card hFull>
-          <Metric>{languages.pumplang[lang]}</Metric>
-          <Toggle
-            color="blue"
-            defaultValue={value.pump}
-            handleSelect={(value: boolean) => {
-              const tempKitId = getCookie('kitId');
-              controlSensorAPI(value, tempKitId, 'pump', lang);
-            }}
-            marginTop="mt-5"
-          >
-            <ToggleItem value={true} text="On" />
-            <ToggleItem value={false} text="Off" />
-          </Toggle>
-        </Card>
-      </Col>
-      <Col>
-        <Card hFull>
-          <Metric>{languages.fanlang[lang]}</Metric>
-          <Toggle
-            color="blue"
-            defaultValue={value.fan}
-            handleSelect={(value: boolean) => {
-              const tempKitId = getCookie('kitId');
-              controlSensorAPI(value, tempKitId, 'fan', lang);
-            }}
-            marginTop="mt-5"
-          >
-            <ToggleItem value={true} text="On" />
-            <ToggleItem value={false} text="Off" />
-          </Toggle>
-        </Card>
-      </Col>
-      <Col>
-        <Card hFull>
-          <Metric>{languages.ledlang[lang]}</Metric>
-          <Toggle
-            color="blue"
-            defaultValue={value.led}
-            handleSelect={(value: boolean) => {
-              const tempKitId = getCookie('kitId');
-              controlSensorAPI(value, tempKitId, 'led', lang);
-            }}
-            marginTop="mt-5"
-          >
-            <ToggleItem value={true} text="On" />
-            <ToggleItem value={false} text="Off" />
-          </Toggle>
-        </Card>
-      </Col>
-    </>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <Metric>{languages.fanlang[lang]}</Metric>
+            <Toggle
+              color="blue"
+              defaultValue={value.fan}
+              handleSelect={(value: boolean) => {
+                const tempKitId = getCookie('kitId');
+                controlSensorAPI(value, tempKitId, 'fan', lang);
+              }}
+              marginTop="mt-5"
+            >
+              <ToggleItem value={true} text="On" />
+              <ToggleItem value={false} text="Off" />
+            </Toggle>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <Metric>{languages.ledlang[lang]}</Metric>
+            <Toggle
+              color="blue"
+              defaultValue={value.led}
+              handleSelect={(value: boolean) => {
+                const tempKitId = getCookie('kitId');
+                controlSensorAPI(value, tempKitId, 'led', lang);
+              }}
+              marginTop="mt-5"
+            >
+              <ToggleItem value={true} text="On" />
+              <ToggleItem value={false} text="Off" />
+            </Toggle>
+          </Card>
+        </Col>
+      </>
+    )
   );
-  // );
 };
 export default Control;

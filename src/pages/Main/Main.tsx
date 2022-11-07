@@ -58,8 +58,8 @@ const Main = () => {
         </Col>
         <SensorCard />
         <Control />
-        <Weather />
       </ColGrid>
+      <Weather />
     </>
   );
 };
