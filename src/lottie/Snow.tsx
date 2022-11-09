@@ -13,7 +13,7 @@ export default (): any => {
   };
   return (
     <>
-      <Lottie options={snow} height={400} width={400} />
+      <Lottie options={snow} isClickToPauseDisabled />
     </>
   );
 };

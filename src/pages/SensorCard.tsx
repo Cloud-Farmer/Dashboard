@@ -23,7 +23,6 @@ export default () => {
         <Card hFull>
           <Flex alignItems="items-start">
             <Metric>{languages.temperaturecard[lang]}</Metric>
-            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
             justifyContent="justify-start"
@@ -41,7 +40,6 @@ export default () => {
         <Card hFull>
           <Flex alignItems="items-start">
             <Metric>{languages.humiditycard[lang]}</Metric>
-            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
             justifyContent="justify-start"
@@ -59,7 +57,6 @@ export default () => {
         <Card hFull>
           <Flex alignItems="items-start">
             <Metric>{languages.illuminancecard[lang]}</Metric>
-            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
             justifyContent="justify-start"
@@ -77,7 +74,6 @@ export default () => {
         <Card hFull>
           <Flex alignItems="items-start">
             <Metric>{languages.soilhumiditycard[lang]}</Metric>
-            <BadgeDelta deltaType="unchanged" text={languages.average[lang]} />
           </Flex>
           <Flex
             justifyContent="justify-start"

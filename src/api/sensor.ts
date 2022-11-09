@@ -41,11 +41,12 @@ const handleError = (error: any) => {
 const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
   const formattedData = new Array<any>();
   data.map((item: any) => {
+    const value = Number(item.values._value);
     formattedData.push({
       time: new Date(item.values._time).toLocaleString(
         lang === 'ko' ? 'ko-KR' : 'en-US',
       ),
-      [sensor]: Number(item.values._value),
+      [sensor]: value % 1 === 0 ? value : value.toFixed(2),
     });
   });
   return formattedData;

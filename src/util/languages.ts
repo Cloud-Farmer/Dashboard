@@ -88,6 +88,22 @@ const languages: LanguageTextList = {
     ko: '라인 차트',
     en: 'LineChart',
   },
+  frequency_1d: {
+    ko: '1일',
+    en: '1D',
+  },
+  frequency_1w: {
+    ko: '1주',
+    en: '1W',
+  },
+  frequency_3mo: {
+    ko: '3달',
+    en: '3M',
+  },
+  frequency_1y: {
+    ko: '1년',
+    en: '1Y',
+  },
 };
 
 export default languages;

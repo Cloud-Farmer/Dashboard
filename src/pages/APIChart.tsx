@@ -20,9 +20,14 @@ import {
 import { SensorType } from '../type';
 import { languages } from '../util';
 import useKitId from '../hooks/useKitId';
-import Main from './Main/Main';
+import Main from './Main';
 
-export default () => {
+interface Props {
+  kit: number;
+  setKit: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const APIChart: React.FC<Props> = ({ kit, setKit }) => {
   const [tempData, setTempData] = useRecoilState(tempDataState);
   const [humData, setHumData] = useRecoilState(humDataState);
   const [illData, setIllData] = useRecoilState(illDataState);
@@ -33,17 +38,15 @@ export default () => {
   const [chart1, setChart1] = useState('temperature');
   const [showCard, setShowCard] = useState(true);
   const [lang, setLang] = useLanguage();
-  const [kit, setKit] = useState(1);
-  const [kitCookie, setKitCookie] = useKitId();
-  const [day, setDay] = useState(['1m', '1h', '1d', '1w']);
-  const [num, setNum] = useState(0);
+
+  const [day, setDay] = useState('1d');
 
   useEffect(() => {
-    getSensorAPI(kit, 'temperature', day[num], setTempData, lang);
-    getSensorAPI(kit, 'humidity', day[num], setHumData, lang);
-    getSensorAPI(kit, 'illuminance', day[num], setIllData, lang);
-    getSensorAPI(kit, 'soilHumidity', day[num], setSoilData, lang);
-  }, [lang, kit, num]);
+    getSensorAPI(kit, 'temperature', day, setTempData, lang);
+    getSensorAPI(kit, 'humidity', day, setHumData, lang);
+    getSensorAPI(kit, 'illuminance', day, setIllData, lang);
+    getSensorAPI(kit, 'soilHumidity', day, setSoilData, lang);
+  }, [lang, kit, day]);
   //console.log(props.name); // 키트 넘버
 
   const tempFormatter = (value: number) => value + 'C';
@@ -64,42 +67,20 @@ export default () => {
     illuminance: illData,
     soilHumidity: soilData,
   };
-  const testData: { [key: string]: any } = {
-    temperature: tempData,
-    humidity: humData,
-    illuminance: illData,
-    soilHumidity: soilData,
-  };
 
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Dropdown
-          placeholder="Select..."
-          defaultValue={1}
-          handleSelect={(value) => setNum(value)}
-          maxWidth="max-w-xs"
-          marginTop="mt-0"
-        >
-          <DropdownItem value={0} text="minute" />
-          <DropdownItem value={1} text="hour" />
-          <DropdownItem value={2} text="day" />
-          <DropdownItem value={3} text="week" />
-        </Dropdown>
         <Toggle
           color="zinc"
-          defaultValue={kit}
-          handleSelect={(value) => {
-            setKit(value);
-            setKitCookie(value);
-            getSensorAPI(value, 'temperature', day[num], setTempData, lang);
-            getSensorAPI(value, 'humidity', day[num], setHumData, lang);
-            getSensorAPI(value, 'illuminance', day[num], setIllData, lang);
-            getSensorAPI(value, 'soilHumidity', day[num], setSoilData, lang);
-          }}
+          defaultValue={'1d'}
+          handleSelect={(value) => setDay(value)}
+          marginTop="mt-0"
         >
-          <ToggleItem value={1} text="KIT1" />
-          <ToggleItem value={2} text="KIT2" />
+          <ToggleItem value={'1d'} text={languages.frequency_1d[lang]} />
+          <ToggleItem value={'1w'} text={languages.frequency_1w[lang]} />
+          <ToggleItem value={'3mo'} text={languages.frequency_3mo[lang]} />
+          <ToggleItem value={'1y'} text={languages.frequency_1y[lang]} />
         </Toggle>
       </div>
       {showCard ? (
@@ -148,3 +129,5 @@ export default () => {
     </>
   );
 };
+
+export default APIChart;
