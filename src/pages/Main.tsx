@@ -28,11 +28,10 @@ const Main = () => {
   const [kit, setKit] = useState(1);
 
   return (
-    <div className="px-7 py-10">
+    <div className="px-7 py-5">
       <div className="flex flex-row justify-between pb-5 items-center">
         <div>
           <h1 className="text-4xl m-0">{`${languages.logo[lang]}`}</h1>
-          <h2 className="text-xl m-0">{`${languages.header[lang]}`}</h2>
         </div>
       </div>
       <div className="flex flex-row space-x-3 items-stretch">
