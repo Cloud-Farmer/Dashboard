@@ -6,6 +6,11 @@ import {
   ToggleItem,
   Dropdown,
   DropdownItem,
+  ColGrid,
+  Col,
+  Card,
+  Flex,
+  Metric,
 } from '@tremor/react';
 import { useRecoilState } from 'recoil';
 import { getSensorAPI } from '../api/sensor';
@@ -32,10 +37,15 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
   const [humData, setHumData] = useRecoilState(humDataState);
   const [illData, setIllData] = useRecoilState(illDataState);
   const [soilData, setSoilData] = useRecoilState(soilDataState);
-  const [dateData, setDate] = useRecoilState(dateDataState);
 
-  const [chart, setChart] = useState('temperature');
-  const [chart1, setChart1] = useState('temperature');
+  const dataTypes = ['temperature', 'humidity', 'illuminance', 'soilHumidity'];
+  const titleTypes = [
+    'temperaturecard',
+    'humiditycard',
+    'illuminancecard',
+    'soilhumiditycard',
+  ];
+
   const [showCard, setShowCard] = useState(true);
   const [lang, setLang] = useLanguage();
 
@@ -47,7 +57,6 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
     getSensorAPI(kit, 'illuminance', day, setIllData, lang);
     getSensorAPI(kit, 'soilHumidity', day, setSoilData, lang);
   }, [lang, kit, day]);
-  //console.log(props.name); // 키트 넘버
 
   const tempFormatter = (value: number) => value + 'C';
   const humFormatter = (value: number) => value + '%';
@@ -70,62 +79,70 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className="flex justify-between place-items-center mb-1">
         <Toggle
           color="zinc"
           defaultValue={'1d'}
           handleSelect={(value) => setDay(value)}
-          marginTop="mt-0"
         >
           <ToggleItem value={'1d'} text={languages.frequency_1d[lang]} />
           <ToggleItem value={'1w'} text={languages.frequency_1w[lang]} />
           <ToggleItem value={'3mo'} text={languages.frequency_3mo[lang]} />
           <ToggleItem value={'1y'} text={languages.frequency_1y[lang]} />
         </Toggle>
-      </div>
-      {showCard ? (
-        <AreaChart
-          data={chartData[chart]}
-          categories={[chart]}
-          dataKey="time"
-          height="h-96"
-          valueFormatter={formatters[chart]}
-          yAxisWidth="w-14"
-          colors={['green', 'blue']}
-          marginTop="mt-4"
-        />
-      ) : (
-        <LineChart
-          data={chartData[chart]}
-          categories={[chart]}
-          dataKey="time"
-          height="h-96"
-          yAxisWidth="w-14"
-          colors={['blue']}
-          marginTop="mt-4"
-        />
-      )}
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+
         <Toggle
           defaultValue={0}
           handleSelect={(value) => setShowCard(value === 0)}
-          marginTop="mt-2"
         >
           <ToggleItem value={0} text={languages.areatoggle[lang]} />
           <ToggleItem value={1} text={languages.linetoggle[lang]} />
         </Toggle>
-        <Toggle
-          color="zinc"
-          defaultValue={chart}
-          handleSelect={(value) => setChart(value)}
-          marginTop="mt-3"
-        >
-          <ToggleItem value="temperature" text={languages.temptoggle[lang]} />
-          <ToggleItem value="humidity" text={languages.humtoggle[lang]} />
-          <ToggleItem value="illuminance" text={languages.illtoggle[lang]} />
-          <ToggleItem value="soilHumidity" text={languages.soiltoggle[lang]} />
-        </Toggle>
       </div>
+      <ColGrid numCols={2} gapX="gap-x-2" gapY="gap-y-2">
+        {dataTypes.map((data, index) => (
+          <Col>
+            {' '}
+            <Card>
+              <div className="flex justify-between">
+                <Metric>{languages[titleTypes[index]][lang]}</Metric>
+                <Metric>
+                  {(data === 'temperature' &&
+                    tempData[tempData.length - 1].temperature + 'C°') ||
+                    (data === 'humidity' &&
+                      humData[humData.length - 1].humidity + '%') ||
+                    (data === 'illuminance' &&
+                      illData[illData.length - 1].illuminance + 'lx') ||
+                    (data === 'soilHumidity' &&
+                      soilData[soilData.length - 1].soilHumidity + '%')}
+                </Metric>
+              </div>
+              {showCard ? (
+                <AreaChart
+                  data={chartData[data]}
+                  categories={[data]}
+                  dataKey="time"
+                  height="h-60"
+                  valueFormatter={formatters[data]}
+                  yAxisWidth="w-14"
+                  colors={['blue']}
+                  marginTop="mt-4"
+                />
+              ) : (
+                <LineChart
+                  data={chartData[data]}
+                  categories={[data]}
+                  dataKey="time"
+                  height="h-60"
+                  yAxisWidth="w-14"
+                  colors={['blue']}
+                  marginTop="mt-4"
+                />
+              )}
+            </Card>
+          </Col>
+        ))}
+      </ColGrid>
     </>
   );
 };

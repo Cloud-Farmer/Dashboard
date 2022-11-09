@@ -18,6 +18,7 @@ import {
 } from '../state/atoms';
 import { LanguageType } from '../type';
 import Lottie from 'react-lottie';
+import { languages } from '../util';
 
 interface Props {
   lang: LanguageType;
@@ -89,8 +90,9 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
   };
 
   return (
-    <div className=" w-1/4">
-      <Card hFull>
+    <div className="flex flex-col w-1/4 justify-start h-full fixed left-0">
+      <div className="bg-white h-full">
+        <h1 className="text-4xl m-0 text-center mt-10">{`${languages.logo[lang]}`}</h1>
         {loading ? (
           <Lottie options={lottieOps} isClickToPauseDisabled />
         ) : (
@@ -99,7 +101,7 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
               (change == 1 && <Rain />) ||
               (change == 2 && <Snow />) ||
               (change == 3 && <Cloudy />)}
-            <h1 className="text-4xl mb-10 font-light">{temp}C°</h1>
+            <h1 className="text-4xl mb-5 font-light">{temp}C°</h1>
 
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
               <ToggleItem value="en" text="🇬🇧 English" />
@@ -124,7 +126,7 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
             </Toggle>
           </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 };
