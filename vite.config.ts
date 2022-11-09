@@ -15,6 +15,12 @@ export default defineConfig({
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/1360000': {
+        target: 'http://apis.data.go.kr',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
     },
     host: '0.0.0.0',
     port: 3000,

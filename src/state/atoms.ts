@@ -40,7 +40,7 @@ const soilDataState = atom({
   default: [
     {
       time: new Date('2022-10-25T12:44:36.732Z').toLocaleString('en-US'),
-      soilhumidity: 36,
+      soilHumidity: 36,
     },
   ],
 });

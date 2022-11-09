@@ -20,8 +20,9 @@ import {
 import { SensorType } from '../type';
 import { languages } from '../util';
 import useKitId from '../hooks/useKitId';
+import Main from './Main/Main';
 
-export default (props: any) => {
+export default () => {
   const [tempData, setTempData] = useRecoilState(tempDataState);
   const [humData, setHumData] = useRecoilState(humDataState);
   const [illData, setIllData] = useRecoilState(illDataState);
@@ -29,6 +30,7 @@ export default (props: any) => {
   const [dateData, setDate] = useRecoilState(dateDataState);
 
   const [chart, setChart] = useState('temperature');
+  const [chart1, setChart1] = useState('temperature');
   const [showCard, setShowCard] = useState(true);
   const [lang, setLang] = useLanguage();
   const [kit, setKit] = useState(1);
@@ -40,7 +42,7 @@ export default (props: any) => {
     getSensorAPI(kit, 'temperature', day[num], setTempData, lang);
     getSensorAPI(kit, 'humidity', day[num], setHumData, lang);
     getSensorAPI(kit, 'illuminance', day[num], setIllData, lang);
-    getSensorAPI(kit, 'soilhumidity', day[num], setSoilData, lang);
+    getSensorAPI(kit, 'soilHumidity', day[num], setSoilData, lang);
   }, [lang, kit, num]);
   //console.log(props.name); // 키트 넘버
 
@@ -53,15 +55,22 @@ export default (props: any) => {
     temperature: tempFormatter,
     humidity: humFormatter,
     illuminance: illFormatter,
-    soilhumidity: soilFormatter,
+    soilHumidity: soilFormatter,
   };
 
   const chartData: { [key: string]: any } = {
     temperature: tempData,
     humidity: humData,
     illuminance: illData,
-    soilhumidity: soilData,
+    soilHumidity: soilData,
   };
+  const testData: { [key: string]: any } = {
+    temperature: tempData,
+    humidity: humData,
+    illuminance: illData,
+    soilHumidity: soilData,
+  };
+
   return (
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -86,7 +95,7 @@ export default (props: any) => {
             getSensorAPI(value, 'temperature', day[num], setTempData, lang);
             getSensorAPI(value, 'humidity', day[num], setHumData, lang);
             getSensorAPI(value, 'illuminance', day[num], setIllData, lang);
-            getSensorAPI(value, 'soilhumidity', day[num], setSoilData, lang);
+            getSensorAPI(value, 'soilHumidity', day[num], setSoilData, lang);
           }}
         >
           <ToggleItem value={1} text="KIT1" />
@@ -101,7 +110,7 @@ export default (props: any) => {
           height="h-96"
           valueFormatter={formatters[chart]}
           yAxisWidth="w-14"
-          colors={['blue']}
+          colors={['green', 'blue']}
           marginTop="mt-4"
         />
       ) : (
@@ -133,7 +142,7 @@ export default (props: any) => {
           <ToggleItem value="temperature" text={languages.temptoggle[lang]} />
           <ToggleItem value="humidity" text={languages.humtoggle[lang]} />
           <ToggleItem value="illuminance" text={languages.illtoggle[lang]} />
-          <ToggleItem value="soilhumidity" text={languages.soiltoggle[lang]} />
+          <ToggleItem value="soilHumidity" text={languages.soiltoggle[lang]} />
         </Toggle>
       </div>
     </>

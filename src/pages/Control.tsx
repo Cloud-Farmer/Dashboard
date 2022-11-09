@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Col, Card, Metric, Toggle, ToggleItem } from '@tremor/react';
+import { Col, Card, Metric, Toggle, ToggleItem, Text } from '@tremor/react';
 import { useState } from 'react';
 import { controlSensorAPI, controlSensorStatusAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
@@ -8,7 +8,7 @@ import { useCookies } from 'react-cookie';
 import useKitId from '../hooks/useKitId';
 import { getCookie } from '../util/cookie';
 
-const Control = () => {
+const Control = (): any => {
   const initValue = {
     window: undefined,
     pump: undefined,
