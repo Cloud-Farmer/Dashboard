@@ -107,7 +107,7 @@ const controlSensorStatusAPI = async (
     .then(async (response: AxiosResponse) => {
       if (response.status === 200)
         await setDataFunc((prev: any) => {
-          return { ...prev, [sensor]: Boolean(response.data) };
+          return { ...prev, [sensor]: Boolean(response.data[0].values._value) };
         });
     })
     .catch((error) => {
