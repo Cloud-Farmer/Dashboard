@@ -34,7 +34,7 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
   const day = ('0' + date.getDate()).slice(-2);
   const datestr = year + month + day;
   const [kitCookie, setKitCookie] = useKitId();
-  const hours = date.getHours() - 2 + '00';
+  const hours = date.getHours() - 1 + '00';
   const timestr = hours;
   const [change, setchange] = useState(0);
   const [temp, settemp] = useState();
@@ -70,7 +70,7 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
 
   useEffect(() => {
     callWeather();
-  }, []);
+  });
 
   useEffect(() => {
     console.log(temp);
@@ -88,7 +88,6 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
       preserveAspectRatio: 'xMidYMid slice',
     },
   };
-
   return (
     <div className="flex flex-col w-1/4 justify-start h-full fixed left-0">
       <div className="bg-white h-full">
@@ -99,8 +98,8 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
           <div className="flex flex-col py-20 px-5 text-center items-center justify-center">
             {(change == 0 && <Sunny />) ||
               (change == 1 && <Rain />) ||
-              (change == 2 && <Snow />) ||
-              (change == 3 && <Cloudy />)}
+              (change == 3 && <Snow />) ||
+              (change == 5 && <Cloudy />)}
             <h1 className="text-4xl mb-5 font-light">{temp}C°</h1>
 
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
@@ -132,3 +131,4 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
 };
 
 export default Sidebar;
+setInterval(() => Sidebar, 30000);
