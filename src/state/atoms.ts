@@ -52,6 +52,24 @@ const dateDataState = atom({
     },
   ],
 });
+const alertDataState = atom({
+  key: 'alert',
+  default: {
+    alertResponseDtoList: [
+      {
+        subject: '',
+        message: '',
+        status: '',
+        language: '',
+        alertedTime: new Date('2022-11-16T12:44:36.742z').toLocaleString(
+          'ko-KO',
+        ),
+      },
+    ],
+    totalElements: 1,
+    totalPages: 1,
+  },
+});
 
 export {
   chartTypeState,
@@ -60,4 +78,5 @@ export {
   illDataState,
   soilDataState,
   dateDataState,
+  alertDataState,
 };

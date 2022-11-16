@@ -4,6 +4,7 @@ import Control from './Control';
 import { useLanguage } from '../hooks';
 import APIChart from './APIChart';
 import Weather from './SideBar';
+import Alert from '../components/Alert';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
@@ -20,6 +21,7 @@ const Main = () => {
             </Col>
             <Control />
           </ColGrid>
+          <Alert kit={kit} setKit={setKit} />
         </div>
       </div>
     </div>

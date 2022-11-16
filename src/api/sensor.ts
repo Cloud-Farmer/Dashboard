@@ -10,6 +10,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 const sensorurl = '/sensor';
 const controlurl = '/actuator';
+const alerturl = '/kit/alert/';
 
 const headerConfig = {
   'Content-Type': 'application/json',
@@ -114,5 +115,20 @@ const controlSensorStatusAPI = async (
       handleError(error);
     });
 };
+const alertAPI = async (
+  kit_id: number,
+  page: number,
+  size: number,
+  setAlertData: any,
+) => {
+  await axios
+    .get(API_URL + alerturl + kit_id, {
+      params: { kit_id, page, size },
+      headers: headerConfig,
+    })
+    .then(async (response: AxiosResponse) => {
+      setAlertData(response.data);
+    });
+};
 
-export { getSensorAPI, controlSensorAPI, controlSensorStatusAPI };
+export { getSensorAPI, controlSensorAPI, controlSensorStatusAPI, alertAPI };

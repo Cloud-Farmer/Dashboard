@@ -2,7 +2,7 @@ import { Card, Toggle, ToggleItem } from '@tremor/react';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { getSensorAPI } from '../api/sensor';
+import { alertAPI, getSensorAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
 import useKitId from '../hooks/useKitId';
 import Cloudy from '../lottie/Cloudy';
@@ -15,10 +15,13 @@ import {
   illDataState,
   soilDataState,
   tempDataState,
+  alertDataState,
 } from '../state/atoms';
 import { LanguageType } from '../type';
 import Lottie from 'react-lottie';
 import { languages } from '../util';
+import AlertList from './AertList';
+import Alert from '../components/Alert';
 
 interface Props {
   lang: LanguageType;
@@ -43,6 +46,8 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
   const [humData, setHumData] = useRecoilState(humDataState);
   const [illData, setIllData] = useRecoilState(illDataState);
   const [soilData, setSoilData] = useRecoilState(soilDataState);
+  const [alertData, setAlertData] = useRecoilState(alertDataState);
+  const [alert, changealert] = useState(0);
 
   let url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
@@ -118,11 +123,21 @@ const Sidebar: React.FC<Props> = ({ lang, setLang, kit, setKit }) => {
                 getSensorAPI(value, 'humidity', day, setHumData, lang);
                 getSensorAPI(value, 'illuminance', day, setIllData, lang);
                 getSensorAPI(value, 'soilHumidity', day, setSoilData, lang);
+                alertAPI(value, 0, 10, setAlertData);
               }}
             >
               <ToggleItem value={1} text="KIT1" />
               <ToggleItem value={2} text="KIT2" />
             </Toggle>
+            {/* <AlertList /> */}
+            <Toggle
+              marginTop="mt-5"
+              handleSelect={(value) => changealert(value)}
+            >
+              <ToggleItem value={1} text="알림창 ON" />
+              <ToggleItem value={0} text="알림창 OFF" />
+            </Toggle>
+            {(alert == 1 && <Alert kit={kit} setKit={setKit} />) || alert == 0}
           </div>
         )}
       </div>
