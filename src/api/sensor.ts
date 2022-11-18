@@ -126,7 +126,7 @@ const alertAPI = async (
       params: { kit_id, page, size },
       headers: headerConfig,
     })
-    .then(async (response: AxiosResponse) => {
+    .then((response: AxiosResponse) => {
       setAlertData(response.data);
     });
 };

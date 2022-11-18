@@ -11,17 +11,19 @@ const Main = () => {
   const [kit, setKit] = useState(1);
 
   return (
-    <div className="h-full">
+    <div className="h-[100vh]">
       <Weather lang={lang} setLang={setLang} kit={kit} setKit={setKit} />
-      <div className="flex flex-row space-x-3 items-stretch h-full justify-end pl-14">
-        <div className="h-full w-[calc(75%)] px-5 py-10">
+      <div className="flex flex-row space-x-3 items-stretch h-full justify-end pl-5 pr-2">
+        <div className="h-full w-[calc(74%)] px-5 py-10">
           <ColGrid numCols={4} gapX="gap-x-2" gapY="gap-y-2">
             <Col numColSpan={1} numColSpanLg={4}>
               <APIChart kit={kit} setKit={setKit} />
             </Col>
             <Control />
+            <Col numColSpan={1} numColSpanLg={2}>
+              <Alert kit={kit} setKit={setKit} />
+            </Col>
           </ColGrid>
-          <Alert kit={kit} setKit={setKit} />
         </div>
       </div>
     </div>

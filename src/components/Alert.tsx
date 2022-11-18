@@ -18,7 +18,7 @@ const Alert: React.FC<Props> = ({ kit, setKit }): any => {
   }, [kit]);
 
   return (
-    <Card maxWidth="max-w-none" marginTop="mt-2">
+    <Card maxWidth="max-w-none">
       <Title>Alert</Title>
       <List>
         {alertData.alertResponseDtoList.map((item) => (
