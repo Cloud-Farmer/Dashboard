@@ -30,6 +30,7 @@ import { LanguageType } from '../type';
 import Lottie from 'react-lottie';
 import { languages } from '../util';
 import Modal from '../components/Modal';
+import AlertModal from './AertModal';
 
 interface Props {
   lang: LanguageType;
@@ -51,12 +52,16 @@ const Sidebar: React.FC<Props> = ({
   const datestr = year + month + day;
   const [kitCookie, setKitCookie] = useKitId();
   const hours = date.getHours() - 1 + '00';
+  const hour = ('0' + date.getHours()).slice(-2);
+  const minute = ('0' + date.getMinutes()).slice(-2);
   const timestr = hours;
   const [change, setchange] = useState(0);
   const [temp, settemp] = useState();
   const [loading, setLoading] = useState(true);
   const [kits, setkits] = useRecoilState(newkitState);
   const [modal, setmodal] = useState(false);
+  const [alert, setalert] = useState(false);
+  const nowtime = year + '.' + month + '.' + day + '.' + hour + ':' + minute;
 
   let url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
@@ -114,21 +119,34 @@ const Sidebar: React.FC<Props> = ({
               (change == 1 && <Rain />) ||
               (change == 3 && <Snow />) ||
               (change == 5 && <Cloudy />)}
-            <h1 className="text-4xl mb-5 font-light">{temp}C°</h1>
+            <h1 className="text-1xl mb-2 font-normal">김해시 활천동</h1>
+            <h1 className="text-4xl mb-2 font-light">{temp}C°</h1>
+            <h3 className="text-3xl mb-5 font-light">{nowtime}</h3>
 
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
               <ToggleItem value="en" text="🇬🇧 English" />
               <ToggleItem value="ko" text="🇰🇷 한국어" />
             </Toggle>
-            <Button
-              text="kit 추가"
-              size="md"
-              marginTop="mt-3"
-              importance="primary"
-              handleClick={() => {
-                setmodal(true);
-              }}
-            />
+            <Flex justifyContent="justify-center" spaceX="space-x-2">
+              <Button
+                text="kit 추가"
+                size="md"
+                marginTop="mt-4"
+                importance="primary"
+                handleClick={() => {
+                  setmodal(true);
+                }}
+              />
+              <Button
+                text="Alert Setting"
+                size="md"
+                marginTop="mt-4"
+                importance="primary"
+                handleClick={() => {
+                  setalert(true);
+                }}
+              />
+            </Flex>
             <SelectBox
               defaultValue={kits[0].id}
               handleSelect={(value) => {
@@ -144,6 +162,7 @@ const Sidebar: React.FC<Props> = ({
           </div>
         )}
         {modal && <Modal open={modal} close={setmodal} />}
+        {alert && <AlertModal kit={kit} open={alert} close={setalert} />}
       </div>
     </div>
   );

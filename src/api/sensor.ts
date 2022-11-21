@@ -11,6 +11,8 @@ import { Dispatch, SetStateAction } from 'react';
 const sensorurl = '/sensor';
 const controlurl = '/actuator';
 const alerturl = '/kit/alert/';
+const alertsettingurl = '/kit/alert/';
+const autocontrolurl = '/kit/';
 
 const headerConfig = {
   'Content-Type': 'application/json',
@@ -27,18 +29,6 @@ const handleError = (error: any) => {
   }
 };
 
-// const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
-//   const formattedData = new Array<any>();
-//   data[0].series[0].values.map((value: any) => {
-//     formattedData.push({
-//       time: new Date(value[0]).toLocaleString(
-//         lang === 'ko' ? 'ko-KR' : 'en-US',
-//       ),
-//       [sensor]: Number(value[2]),
-//     });
-//   });
-//   return formattedData;
-// };
 const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
   const formattedData = new Array<any>();
   data.map((item: any) => {
@@ -130,5 +120,58 @@ const alertAPI = async (
       setAlertData(response.data);
     });
 };
+const alertsettingAPI = async (
+  kitid: number,
+  sensor: SensorType,
+  value: number,
+) => {
+  axios
+    .post(API_URL + alertsettingurl + kitid, null, {
+      params: { kitid, sensor, value },
+      headers: headerConfig,
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+};
+// 자동제어
+const AutocontrolAPI = (kitid: number, value: number) => {
+  console.log(kitid + ' ' + value);
+  axios
+    .post(API_URL + autocontrolurl + kitid + '/auto', null, {
+      params: { kitid, value },
+      headers: headerConfig,
+    })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+};
+const AutocontrolStatusAPI = async (kit_id: number) => {
+  await axios
+    .get(API_URL + autocontrolurl + kit_id + '/auto', {
+      params: {},
+      headers: headerConfig,
+    })
+    .then(async (response: AxiosResponse) => {
+      if (response.status === 200) console.log(response);
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+};
 
-export { getSensorAPI, controlSensorAPI, controlSensorStatusAPI, alertAPI };
+export {
+  getSensorAPI,
+  controlSensorAPI,
+  controlSensorStatusAPI,
+  alertAPI,
+  alertsettingAPI,
+  AutocontrolAPI,
+  AutocontrolStatusAPI,
+};

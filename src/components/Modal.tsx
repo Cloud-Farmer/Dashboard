@@ -12,7 +12,7 @@ type FormProps = {
   onSubmit: (form: { id: number; alias: string }) => void;
 };
 
-const Modal = (props: props, { onSubmit }: FormProps): ReactElement => {
+const Modal = (props: props): ReactElement => {
   const [kits, setkits] = useRecoilState(newkitState);
   const { open, close } = props;
   const [idinput, idSetinput] = useState('');

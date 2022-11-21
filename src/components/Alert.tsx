@@ -19,7 +19,7 @@ const Alert: React.FC<Props> = ({ kit, setKit }): any => {
 
   return (
     <Card maxWidth="max-w-none">
-      <Title>Alert</Title>
+      <Title>Alert Log</Title>
       <List>
         {alertData.alertResponseDtoList.map((item) => (
           <ListItem>
@@ -27,10 +27,7 @@ const Alert: React.FC<Props> = ({ kit, setKit }): any => {
             <span>
               <Text color="blue">{item.subject}</Text>
             </span>
-            <span>{item.message}</span>
-            <span>
-              <Text color="orange">{item.status}</Text>
-            </span>
+            <span>{item.messageKR}</span>
             <span>{item.alertedTime}</span>
           </ListItem>
         ))}
