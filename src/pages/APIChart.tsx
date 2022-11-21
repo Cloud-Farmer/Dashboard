@@ -46,6 +46,8 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
     'soilhumiditycard',
   ];
 
+  const colors: any = ['red', 'blue', 'orange', 'green'];
+
   const [showCard, setShowCard] = useState(true);
   const [lang, setLang] = useLanguage();
 
@@ -125,7 +127,7 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
                   height="h-60"
                   valueFormatter={formatters[data]}
                   yAxisWidth="w-14"
-                  colors={['blue']}
+                  colors={[colors[index]]}
                   marginTop="mt-4"
                 />
               ) : (
@@ -135,7 +137,7 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
                   dataKey="time"
                   height="h-60"
                   yAxisWidth="w-14"
-                  colors={['blue']}
+                  colors={[colors[index]]}
                   marginTop="mt-4"
                 />
               )}

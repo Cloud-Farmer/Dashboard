@@ -27,10 +27,7 @@ const Alert: React.FC<Props> = ({ kit, setKit }): any => {
             <span>
               <Text color="blue">{item.subject}</Text>
             </span>
-            <span>
-              {item.message}
-              <br />
-            </span>
+            <span>{item.message}</span>
             <span>
               <Text color="orange">{item.status}</Text>
             </span>

@@ -70,6 +70,19 @@ const alertDataState = atom({
     totalPages: 1,
   },
 });
+const newkitState = atom({
+  key: 'newkit',
+  default: [
+    {
+      id: 1,
+      alias: 'KIT 1',
+    },
+    {
+      id: 2,
+      alias: 'KIT 2',
+    },
+  ],
+});
 
 export {
   chartTypeState,
@@ -79,4 +92,5 @@ export {
   soilDataState,
   dateDataState,
   alertDataState,
+  newkitState,
 };

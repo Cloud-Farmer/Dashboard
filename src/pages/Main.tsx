@@ -5,6 +5,7 @@ import { useLanguage } from '../hooks';
 import APIChart from './APIChart';
 import Weather from './SideBar';
 import Alert from '../components/Alert';
+import Modal from '../components/Modal';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
@@ -19,7 +20,7 @@ const Main = () => {
             <Col numColSpan={1} numColSpanLg={4}>
               <APIChart kit={kit} setKit={setKit} />
             </Col>
-            <Control />
+            <Control kit={kit} />
             <Col numColSpan={1} numColSpanLg={2}>
               <Alert kit={kit} setKit={setKit} />
             </Col>

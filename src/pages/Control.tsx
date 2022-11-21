@@ -1,22 +1,16 @@
 import React, { useEffect } from 'react';
-import {
-  Col,
-  Card,
-  Metric,
-  Toggle,
-  ToggleItem,
-  Text,
-  ColGrid,
-} from '@tremor/react';
+import { Col, Card, Metric, Toggle, ToggleItem, ColGrid } from '@tremor/react';
 import { useState } from 'react';
 import { controlSensorAPI, controlSensorStatusAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
 import { languages } from '../util';
-import { useCookies } from 'react-cookie';
-import useKitId from '../hooks/useKitId';
 import { getCookie } from '../util/cookie';
 
-const Control = (): any => {
+type Props = {
+  kit: number;
+};
+
+const Control: React.FC<Props> = ({ kit }) => {
   const initValue = {
     window: undefined,
     pump: undefined,
@@ -27,20 +21,19 @@ const Control = (): any => {
   const [lang, setLang] = useLanguage();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(initValue);
-  const [kitId, setKit] = useKitId(); //useKitId();
   //const [test, setTest] = useState(props);
 
   useEffect(() => {
     const callAPI = async () => {
-      await controlSensorStatusAPI(kitId, 'window', value, setValue);
-      await controlSensorStatusAPI(kitId, 'pump', value, setValue);
-      await controlSensorStatusAPI(kitId, 'fan', value, setValue);
-      await controlSensorStatusAPI(kitId, 'led', value, setValue);
+      await controlSensorStatusAPI(kit, 'window', setValue);
+      await controlSensorStatusAPI(kit, 'pump', setValue);
+      await controlSensorStatusAPI(kit, 'fan', setValue);
+      await controlSensorStatusAPI(kit, 'led', setValue);
       await setLoading(false);
-      setLoading(false);
     };
-    callAPI();
-  }, []);
+    console.log(kit);
+    kit && callAPI();
+  }, [kit]);
 
   // useEffect(() => {
   //   console.log(value);
