@@ -21,7 +21,6 @@ const Control: React.FC<Props> = ({ kit }) => {
   const [lang, setLang] = useLanguage();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(initValue);
-  //const [test, setTest] = useState(props);
 
   useEffect(() => {
     const callAPI = async () => {
