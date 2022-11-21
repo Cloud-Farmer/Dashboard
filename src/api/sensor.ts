@@ -134,7 +134,7 @@ const alertAPI = async (
 };
 const alertsettingAPI = async (
   kitid: number,
-  sensor: SensorType,
+  sensor: string,
   value: number,
 ) => {
   axios

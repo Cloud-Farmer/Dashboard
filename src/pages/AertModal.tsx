@@ -17,7 +17,7 @@ const AlertModal = (props: props): ReactElement => {
   const handleOnClick = () => {
     valueSetinput(valueinput);
     // alertsettingAPI(kit, alertdata, Number(valueinput));
-    alertsettingAPI(kit, 'humidity', Number(valueinput));
+    alertsettingAPI(kit, alertdata, Number(valueinput));
     close(false);
   };
 
