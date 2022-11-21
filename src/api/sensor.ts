@@ -11,6 +11,7 @@ import { Dispatch, SetStateAction } from 'react';
 const sensorurl = '/sensor';
 const controlurl = '/actuator';
 const alerturl = '/kit/alert/';
+const newkiturl = '/kit/new';
 const alertsettingurl = '/kit/alert/';
 const autocontrolurl = '/kit/';
 
@@ -105,6 +106,17 @@ const controlSensorStatusAPI = async (
       handleError(error);
     });
 };
+const newKitAPI = async (kitId: number) => {
+  axios
+    .post(API_URL + newkiturl, null, {
+      params: { kitId },
+      headers: headerConfig,
+    })
+    .then((response) => {
+      console.log(response);
+    });
+};
+
 const alertAPI = async (
   kit_id: number,
   page: number,
@@ -170,6 +182,7 @@ export {
   getSensorAPI,
   controlSensorAPI,
   controlSensorStatusAPI,
+  newKitAPI,
   alertAPI,
   alertsettingAPI,
   AutocontrolAPI,

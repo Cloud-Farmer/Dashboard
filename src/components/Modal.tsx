@@ -1,16 +1,14 @@
-import React, { ReactElement, useRef } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { Button, Flex } from '@tremor/react';
 import { newkitState } from '../state/atoms';
+import { newKitAPI } from '../api/sensor';
 
 interface props {
   open: boolean;
   close: (value: React.SetStateAction<boolean>) => void;
 }
-type FormProps = {
-  onSubmit: (form: { id: number; alias: string }) => void;
-};
 
 const Modal = (props: props): ReactElement => {
   const [kits, setkits] = useRecoilState(newkitState);
@@ -22,6 +20,7 @@ const Modal = (props: props): ReactElement => {
     await setkits((prev: any) => {
       return [...prev, { id: idinput, alias: aliasinput }];
     });
+    await newKitAPI(Number(idinput));
     await console.log(kits);
     await close(false);
   };
