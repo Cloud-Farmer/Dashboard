@@ -104,6 +104,10 @@ const languages: LanguageTextList = {
     ko: '1년',
     en: '1Y',
   },
+  autolang: {
+    ko: '자동 제어 모드',
+    en: 'Auto Control Mode',
+  },
 };
 
 export default languages;

@@ -24,7 +24,6 @@ const Main = () => {
             <Col numColSpan={1} numColSpanLg={2}>
               <Alert kit={kit} setKit={setKit} />
             </Col>
-            <AutoControl kit={kit} />
           </ColGrid>
         </div>
       </div>

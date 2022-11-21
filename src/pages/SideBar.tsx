@@ -31,6 +31,7 @@ import Lottie from 'react-lottie';
 import { languages } from '../util';
 import Modal from '../components/Modal';
 import AlertModal from './AertModal';
+import AutoControl from './AutoControl';
 
 interface Props {
   lang: LanguageType;
@@ -127,6 +128,7 @@ const Sidebar: React.FC<Props> = ({
               <ToggleItem value="en" text="🇬🇧 English" />
               <ToggleItem value="ko" text="🇰🇷 한국어" />
             </Toggle>
+            <AutoControl kit={kit} />
             <Flex justifyContent="justify-center" spaceX="space-x-2">
               <Button
                 text="kit 추가"
