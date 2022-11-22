@@ -20,10 +20,10 @@ const Main = () => {
   }, [kit]);
 
   return (
-    <div className="h-[100vh]">
+    <div className="h-[100vh] bg-slate-800 text-white">
       <Weather lang={lang} setLang={setLang} kit={kit} setKit={setKit} />
-      <div className="flex flex-row space-x-3 items-stretch h-full justify-end pl-5 pr-2">
-        <div className="h-full w-[calc(74%)] px-5 py-10">
+      <div className="flex flex-row space-x-3 items-stretch h-full justify-end pl-5 pr-2 bg-slate-800">
+        <div className="h-full w-[calc(74%)] px-5 py-10 bg-slate-800 text-white">
           <ColGrid numCols={4} gapX="gap-x-2" gapY="gap-y-2">
             <Col numColSpan={1} numColSpanLg={4}>
               <APIChart kit={kit} setKit={setKit} />

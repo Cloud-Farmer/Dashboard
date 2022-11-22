@@ -28,8 +28,8 @@ const Modal = (props: props): ReactElement => {
   return (
     <>
       {open ? (
-        <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
-          <div className="bg-white px-16 py-8 rounded-md text-center">
+        <div className="bg-slate-800 bg-opacity-70 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 z-40">
+          <div className="bg-slate-900 px-16 py-8 rounded-2xl drop-shadow-xl text-center z-50">
             <h1>Kit 추가 모달</h1>
             <div>
               <label
@@ -46,7 +46,7 @@ const Modal = (props: props): ReactElement => {
                 }}
                 className="bg-gray-30 border border-gray-100 text-gray-900 text-sm rounded-lg focus:ring-blue-500
              focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              dark:text-white dark:focus:ring-blue-800 dark:focus:border-blue-500"
                 placeholder="Id"
               />
             </div>
@@ -63,9 +63,9 @@ const Modal = (props: props): ReactElement => {
                 onChange={(e) => {
                   aliasSetinput(e.target.value);
                 }}
-                className="bg-gray-30 border border-gray-100 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-             focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="bg-gray-30 border border-gray-100 text-gray-900 text-sm rounded-lg focus:ring-blue-700
+             focus:border-blue-700 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-700 dark:focus:border-blue-700"
                 placeholder="Alias"
               />
             </div>

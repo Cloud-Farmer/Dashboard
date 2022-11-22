@@ -10,28 +10,23 @@ import {
 import axios from 'axios';
 import React, { ReactElement, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { alertAPI, getSensorAPI } from '../api/sensor';
-import { useLanguage } from '../hooks';
-import useKitId from '../hooks/useKitId';
+import {
+  alertAPI,
+  AutocontrolAPI,
+  AutocontrolStatusAPI,
+  getSensorAPI,
+} from '../api/sensor';
 import Cloudy from '../lottie/Cloudy';
 import Rain from '../lottie/Rain';
 import Snow from '../lottie/Snow';
 import Sunny from '../lottie/sunny';
 import Loading from '../assets/99257-loading-gif-animation.json';
-import {
-  humDataState,
-  illDataState,
-  soilDataState,
-  tempDataState,
-  alertDataState,
-  newkitState,
-} from '../state/atoms';
+import { newkitState } from '../state/atoms';
 import { LanguageType } from '../type';
 import Lottie from 'react-lottie';
 import { languages } from '../util';
 import Modal from '../components/Modal';
 import AlertModal from './AertModal';
-import AutoControl from './AutoControl';
 
 interface Props {
   lang: LanguageType;
@@ -51,20 +46,20 @@ const Sidebar: React.FC<Props> = ({
   const month = ('0' + (date.getMonth() + 1)).slice(-2);
   const day = ('0' + date.getDate()).slice(-2);
   const datestr = year + month + day;
-  const [kitCookie, setKitCookie] = useKitId();
   const hours = date.getHours() - 1 + '00';
   const hour = ('0' + date.getHours()).slice(-2);
   const minute = ('0' + date.getMinutes()).slice(-2);
   const timestr = hours;
   const [change, setchange] = useState(0);
   const [temp, settemp] = useState();
+  const [autoControlStatus, setAutoControlStatus] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [kits, setkits] = useRecoilState(newkitState);
   const [modal, setmodal] = useState(false);
   const [alert, setalert] = useState(false);
   const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
 
-  let url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
+  const url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
   const callWeather = async () => {
     await axios
@@ -90,15 +85,14 @@ const Sidebar: React.FC<Props> = ({
 
   useEffect(() => {
     callWeather();
-  });
+  }, []);
 
   useEffect(() => {
-    console.log(temp);
-  }, [temp]);
-
-  useEffect(() => {
-    console.log(change);
-  }, [change]);
+    const callAPI = async () => {
+      await AutocontrolStatusAPI(kit, setAutoControlStatus);
+    };
+    kit && callAPI();
+  }, [kit]);
 
   const lottieOps = {
     loop: true,
@@ -108,59 +102,86 @@ const Sidebar: React.FC<Props> = ({
       preserveAspectRatio: 'xMidYMid slice',
     },
   };
-  return (
-    <div className="flex flex-col w-1/4 justify-start h-full fixed left-0">
-      <div className="bg-white h-full">
-        <h1 className="text-4xl m-0 text-center mt-10">{`${languages.logo[lang]}`}</h1>
-        {loading ? (
-          <Lottie options={lottieOps} isClickToPauseDisabled />
-        ) : (
-          <div className="flex flex-col py-20 px-5 text-center items-center justify-center">
-            {(change == 0 && <Sunny />) ||
-              (change == 1 && <Rain />) ||
-              (change == 3 && <Snow />) ||
-              (change == 5 && <Cloudy />)}
-            <h1 className="text-1xl mb-2 font-normal">김해시 활천동</h1>
-            <h1 className="text-4xl mb-2 font-light">{temp}C°</h1>
-            <h3 className="text-3xl mb-5 font-light">{nowtime}</h3>
 
+  return (
+    <div className="flex flex-col w-1/4 justify-center h-[100vh] fixed left-0">
+      <div className="bg-slate-800 h-full flex flex-col justify-center items-center">
+        <p className="text-3xl m-0 text-center mt-5 p-3 font-black">{`${languages.logo[lang]}`}</p>
+        {loading ? (
+          <Lottie
+            options={lottieOps}
+            isClickToPauseDisabled
+            width={300}
+            height={300}
+          />
+        ) : (
+          <div className="flex flex-col px-5 text-center items-center justify-center text-white">
+            <h1 className="text-xl font-normal">김해시 활천동 날씨</h1>
+            <div className="px-10">
+              {(change == 0 && <Sunny />) ||
+                (change == 1 && <Rain />) ||
+                (change == 3 && <Snow />) ||
+                (change == 5 && <Cloudy />)}
+            </div>
+            <p className="text-2xl mb-1 mt-[-20px] font-light">{temp}C°</p>
+            <h3>{'Language Management'}</h3>
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
               <ToggleItem value="en" text="🇬🇧 English" />
               <ToggleItem value="ko" text="🇰🇷 한국어" />
             </Toggle>
-            <AutoControl kit={kit} />
-            <Flex justifyContent="justify-center" spaceX="space-x-2">
+            <h3>{'Kit Management'}</h3>
+            <div className="flex space-x-2 items-stretch justify-center">
               <Button
-                text="kit 추가"
+                text="추가"
                 size="md"
-                marginTop="mt-4"
                 importance="primary"
                 handleClick={() => {
                   setmodal(true);
                 }}
               />
-              <Button
-                text="Alert Setting"
-                size="md"
-                marginTop="mt-4"
-                importance="primary"
-                handleClick={() => {
-                  setalert(true);
+              <SelectBox
+                defaultValue={kits[0].id}
+                handleSelect={(value) => {
+                  setKit(value);
                 }}
-              />
-            </Flex>
-            <SelectBox
-              defaultValue={kits[0].id}
-              handleSelect={(value) => {
-                setKit(value);
-              }}
-              maxWidth="max-w-lg"
-              marginTop="mt-3"
-            >
-              {kits.map((v) => (
-                <SelectBoxItem key={v.id} value={v.id} text={v.alias} />
-              ))}
-            </SelectBox>
+              >
+                {kits.map((v) => (
+                  <SelectBoxItem key={v.id} value={v.id} text={v.alias} />
+                ))}
+              </SelectBox>
+            </div>
+            <h3>{languages.autolang[lang]}</h3>
+            <div className="space-x-2">
+              <Toggle
+                color="blue"
+                defaultValue={autoControlStatus}
+                handleSelect={(value: number) => {
+                  AutocontrolAPI(kit, value);
+                  if (value == 1) {
+                    window.alert(kit + '번 키트 자동 제어 활성화');
+                    setAutoControlStatus(1);
+                  } else {
+                    window.alert(kit + '번 키트 수동 제어 활성화');
+                    setAutoControlStatus(0);
+                  }
+                }}
+              >
+                <ToggleItem value={1} text="ON" />
+                <ToggleItem value={0} text="OFF" />
+              </Toggle>
+              {autoControlStatus === 1 && (
+                <Button
+                  color="sky"
+                  text="알람 세팅"
+                  size="md"
+                  marginTop="mt-4"
+                  importance="primary"
+                  handleClick={() => {
+                    setalert(true);
+                  }}
+                />
+              )}
+            </div>
           </div>
         )}
         {modal && <Modal open={modal} close={setmodal} />}

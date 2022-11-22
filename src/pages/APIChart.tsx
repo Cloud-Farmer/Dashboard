@@ -83,7 +83,7 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
     <>
       <div className="flex justify-between place-items-center mb-1">
         <Toggle
-          color="zinc"
+          color="fuchsia"
           defaultValue={'1d'}
           handleSelect={(value) => setDay(value)}
         >

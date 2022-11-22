@@ -168,14 +168,17 @@ const AutocontrolAPI = (kitid: number, value: number) => {
       handleError(error);
     });
 };
-const AutocontrolStatusAPI = async (kit_id: number) => {
+const AutocontrolStatusAPI = async (
+  kit_id: number,
+  setValue: React.Dispatch<any>,
+) => {
   await axios
     .get(API_URL + autocontrolurl + kit_id + '/auto', {
       params: {},
       headers: headerConfig,
     })
     .then(async (response: AxiosResponse) => {
-      if (response.status === 200) console.log(response);
+      setValue(response.data);
     })
     .catch((error) => {
       handleError(error);
