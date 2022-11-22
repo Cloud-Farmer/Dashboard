@@ -30,8 +30,7 @@ const AutoControl: React.FC<Props> = ({ kit }) => {
         defaultValue={value}
         handleSelect={(value: number) => {
           AutocontrolAPI(kit, value);
-          console.log(kit);
-          //setCookie(kit, String(setValue(value)));
+          console.log('키트 ' + kit);
           (value == 1 && window.alert(kit + '번 키트 자동 제어 활성화')) ||
             (value == 0 && window.alert(kit + '번 키트 수동 제어 활성화'));
         }}

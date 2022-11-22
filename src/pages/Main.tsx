@@ -5,12 +5,11 @@ import { useLanguage } from '../hooks';
 import APIChart from './APIChart';
 import Weather from './SideBar';
 import Alert from '../components/Alert';
-import AutoControl from './AutoControl';
 import { getCookie, setCookie } from '../util/cookie';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
-  const [kit, setKit] = useState<any>();
+  const [kit, setKit] = useState<any>(1);
 
   useEffect(() => {
     setKit(1);

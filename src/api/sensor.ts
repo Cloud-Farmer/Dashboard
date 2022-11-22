@@ -89,6 +89,7 @@ const controlSensorStatusAPI = async (
   kit_id: number,
   sensor: ControlSensorType,
   setDataFunc: Dispatch<SetStateAction<any>>,
+  setTimeFunc: Dispatch<SetStateAction<any>>,
 ) => {
   await axios
     .get(API_URL + controlurl, {
@@ -98,9 +99,12 @@ const controlSensorStatusAPI = async (
     .then(async (response: AxiosResponse) => {
       if (response.status === 200)
         await setDataFunc((prev: any) => {
-          console.log(response.data[0].value);
+          //console.log(response.data[0].time);
           return { ...prev, [sensor]: Boolean(response.data[0].value) };
         });
+      await setTimeFunc((prev: any) => {
+        return { ...prev, [sensor]: String(response.data[0].time) };
+      });
     })
     .catch((error) => {
       handleError(error);

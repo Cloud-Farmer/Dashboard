@@ -52,7 +52,7 @@ const AlertModal = (props: props): ReactElement => {
                 />
                 <SelectBoxItem
                   value={() => {
-                    setalertdata('soilHumidity');
+                    setalertdata('soilhumidity');
                   }}
                   text="토양 습도"
                 />

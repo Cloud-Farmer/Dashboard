@@ -1,5 +1,16 @@
 import React, { useEffect } from 'react';
-import { Col, Card, Metric, Toggle, ToggleItem, ColGrid } from '@tremor/react';
+import {
+  Col,
+  Card,
+  Metric,
+  Toggle,
+  ToggleItem,
+  ColGrid,
+  Title,
+  List,
+  ListItem,
+  Text,
+} from '@tremor/react';
 import { useState } from 'react';
 import { controlSensorAPI, controlSensorStatusAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
@@ -17,26 +28,29 @@ const Control: React.FC<Props> = ({ kit }) => {
     fan: undefined,
     led: undefined,
   };
+  const inittime = {
+    window: '',
+    pump: '',
+    fan: '',
+    led: '',
+  };
 
   const [lang, setLang] = useLanguage();
   const [loading, setLoading] = useState(true);
   const [value, setValue] = useState(initValue);
+  const [time, setTime] = useState(inittime);
 
   useEffect(() => {
     const callAPI = async () => {
-      await controlSensorStatusAPI(kit, 'window', setValue);
-      await controlSensorStatusAPI(kit, 'pump', setValue);
-      await controlSensorStatusAPI(kit, 'fan', setValue);
-      await controlSensorStatusAPI(kit, 'led', setValue);
+      await controlSensorStatusAPI(kit, 'window', setValue, setTime);
+      await controlSensorStatusAPI(kit, 'pump', setValue, setTime);
+      await controlSensorStatusAPI(kit, 'fan', setValue, setTime);
+      await controlSensorStatusAPI(kit, 'led', setValue, setTime);
       await setLoading(false);
     };
-    console.log(kit);
+    console.log(time);
     kit && callAPI();
   }, [kit]);
-
-  // useEffect(() => {
-  //   console.log(value);
-  // }, [value]);
 
   return (
     <Col numColSpan={1} numColSpanLg={2}>
@@ -109,6 +123,59 @@ const Control: React.FC<Props> = ({ kit }) => {
           </Col>
         </ColGrid>
       )}
+      <Card marginTop="mt-1.5">
+        <Title>Actuator Log</Title>
+        <List>
+          <ListItem>
+            {(value.fan === true && (
+              <span>
+                <Text color="orange">팬이 작동중입니다</Text>
+              </span>
+            )) || (
+              <span>
+                <Text color="orange">팬이 작동중이지 않습니다</Text>
+              </span>
+            )}
+            <span>{time.fan}</span>
+          </ListItem>
+          <ListItem>
+            {(value.led === true && (
+              <span>
+                <Text color="orange">조명이 작동중입니다</Text>
+              </span>
+            )) || (
+              <span>
+                <Text color="orange">조명이 작동중이지 않습니다</Text>
+              </span>
+            )}
+            <span>{time.led}</span>
+          </ListItem>
+          <ListItem>
+            {(value.pump === true && (
+              <span>
+                <Text color="orange">급수 펌프 작동중입니다</Text>
+              </span>
+            )) || (
+              <span>
+                <Text color="orange">급수 펌프가 작동중이지 않습니다</Text>
+              </span>
+            )}
+            <span>{time.pump}</span>
+          </ListItem>
+          <ListItem>
+            {(value.window === true && (
+              <span>
+                <Text color="orange">창문이 작동중입니다</Text>
+              </span>
+            )) || (
+              <span>
+                <Text color="orange">창문이 작동중이지 않습니다</Text>
+              </span>
+            )}
+            <span>{time.window}</span>
+          </ListItem>
+        </List>
+      </Card>
     </Col>
   );
 };

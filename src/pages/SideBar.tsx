@@ -62,7 +62,7 @@ const Sidebar: React.FC<Props> = ({
   const [kits, setkits] = useRecoilState(newkitState);
   const [modal, setmodal] = useState(false);
   const [alert, setalert] = useState(false);
-  const nowtime = year + '.' + month + '.' + day + '.' + hour + ':' + minute;
+  const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
 
   let url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
