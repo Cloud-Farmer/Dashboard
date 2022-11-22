@@ -49,8 +49,7 @@ const Control: React.FC<Props> = ({ kit }) => {
                 color="blue"
                 defaultValue={value.window}
                 handleSelect={(value: boolean) => {
-                  const tempKitId = getCookie('kitId');
-                  controlSensorAPI(value, tempKitId, 'window', lang);
+                  controlSensorAPI(value, kit, 'window', lang);
                 }}
                 marginTop="mt-5"
               >
@@ -67,8 +66,7 @@ const Control: React.FC<Props> = ({ kit }) => {
                 color="blue"
                 defaultValue={value.pump}
                 handleSelect={(value: boolean) => {
-                  const tempKitId = getCookie('kitId');
-                  controlSensorAPI(value, tempKitId, 'pump', lang);
+                  controlSensorAPI(value, kit, 'pump', lang);
                 }}
                 marginTop="mt-5"
               >
@@ -84,8 +82,7 @@ const Control: React.FC<Props> = ({ kit }) => {
                 color="blue"
                 defaultValue={value.fan}
                 handleSelect={(value: boolean) => {
-                  const tempKitId = getCookie('kitId');
-                  controlSensorAPI(value, tempKitId, 'fan', lang);
+                  controlSensorAPI(value, kit, 'fan', lang);
                 }}
                 marginTop="mt-5"
               >
@@ -101,8 +98,7 @@ const Control: React.FC<Props> = ({ kit }) => {
                 color="blue"
                 defaultValue={value.led}
                 handleSelect={(value: boolean) => {
-                  const tempKitId = getCookie('kitId');
-                  controlSensorAPI(value, tempKitId, 'led', lang);
+                  controlSensorAPI(value, kit, 'led', lang);
                 }}
                 marginTop="mt-5"
               >

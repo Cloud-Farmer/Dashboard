@@ -29,7 +29,6 @@ const AutoControl: React.FC<Props> = ({ kit }) => {
         color="blue"
         defaultValue={value}
         handleSelect={(value: number) => {
-          const kit = getCookie('kitId');
           AutocontrolAPI(kit, value);
           console.log(kit);
           //setCookie(kit, String(setValue(value)));

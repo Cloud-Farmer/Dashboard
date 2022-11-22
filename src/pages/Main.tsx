@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ColGrid, Col } from '@tremor/react';
 import Control from './Control';
 import { useLanguage } from '../hooks';
@@ -6,10 +6,19 @@ import APIChart from './APIChart';
 import Weather from './SideBar';
 import Alert from '../components/Alert';
 import AutoControl from './AutoControl';
+import { getCookie, setCookie } from '../util/cookie';
 
 const Main = () => {
   const [lang, setLang] = useLanguage();
-  const [kit, setKit] = useState(1);
+  const [kit, setKit] = useState<any>();
+
+  useEffect(() => {
+    setKit(1);
+  }, []);
+
+  useEffect(() => {
+    setCookie('kitId', String(kit));
+  }, [kit]);
 
   return (
     <div className="h-[100vh]">
