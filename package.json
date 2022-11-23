@@ -8,6 +8,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "serve": "serve -s dist -p 3000",
     "deploy": "pm2 start \"serve -s dist -p 3001\" --name smartfarm-frontend:1.0"
   },
   "dependencies": {
