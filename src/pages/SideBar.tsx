@@ -1,31 +1,24 @@
 import {
   Button,
-  Card,
-  Toggle,
-  ToggleItem,
   SelectBox,
   SelectBoxItem,
-  Flex,
+  Toggle,
+  ToggleItem,
 } from '@tremor/react';
 import axios from 'axios';
 import React, { ReactElement, useEffect, useState } from 'react';
+import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
-import {
-  alertAPI,
-  AutocontrolAPI,
-  AutocontrolStatusAPI,
-  getSensorAPI,
-} from '../api/sensor';
+import { AutocontrolAPI, AutocontrolStatusAPI } from '../api/sensor';
+import Loading from '../assets/99257-loading-gif-animation.json';
+import Modal from '../components/Modal';
 import Cloudy from '../lottie/Cloudy';
 import Rain from '../lottie/Rain';
 import Snow from '../lottie/Snow';
 import Sunny from '../lottie/sunny';
-import Loading from '../assets/99257-loading-gif-animation.json';
 import { newkitState } from '../state/atoms';
 import { LanguageType } from '../type';
-import Lottie from 'react-lottie';
 import { languages } from '../util';
-import Modal from '../components/Modal';
 import AlertModal from './AertModal';
 
 interface Props {
@@ -51,7 +44,7 @@ const Sidebar: React.FC<Props> = ({
   const minute = ('0' + date.getMinutes()).slice(-2);
   const timestr = hours;
   const [change, setchange] = useState(0);
-  const [temp, settemp] = useState();
+  const [temp, settemp] = useState('');
   const [autoControlStatus, setAutoControlStatus] = useState<any>();
   const [loading, setLoading] = useState(true);
   const [kits, setkits] = useRecoilState(newkitState);
@@ -104,7 +97,7 @@ const Sidebar: React.FC<Props> = ({
   };
 
   return (
-    <div className="flex flex-col w-1/4 justify-center h-[100vh] fixed left-0">
+    <div className="flex flex-col w-1/4 justify-center h-[100vh]">
       <div className="bg-slate-800 h-full flex flex-col justify-center items-center">
         <p className="text-3xl m-0 text-center mt-5 p-3 font-black">{`${languages.logo[lang]}`}</p>
         {loading ? (
@@ -116,14 +109,16 @@ const Sidebar: React.FC<Props> = ({
           />
         ) : (
           <div className="flex flex-col px-5 text-center items-center justify-center text-white">
-            <h1 className="text-xl font-normal">김해시 활천동 날씨</h1>
-            <div className="px-10">
-              {(change == 0 && <Sunny />) ||
-                (change == 1 && <Rain />) ||
-                (change == 3 && <Snow />) ||
-                (change == 5 && <Cloudy />)}
+            <div className="flex flex-col bg-slate-900 rounded-3xl py-2 justify-center items-center">
+              <p className="text-xl font-normal my-0">김해시 활천동 날씨</p>
+              <div className="px-10 w-2/3 h-2/3">
+                {(change == 0 && <Sunny />) ||
+                  (change == 1 && <Rain />) ||
+                  (change == 3 && <Snow />) ||
+                  (change == 5 && <Cloudy />)}
+              </div>
+              <p className="text-2xl my-2 mt-[-20px] font-light">{temp}C°</p>
             </div>
-            <p className="text-2xl mb-1 mt-[-20px] font-light">{temp}C°</p>
             <h3>{'Language Management'}</h3>
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
               <ToggleItem value="en" text="🇬🇧 English" />

@@ -44,14 +44,14 @@ const formatData = (data: any, sensor: SensorType, lang?: LanguageType) => {
   return formattedData;
 };
 
-const getSensorAPI = (
+const getSensorAPI = async (
   kit_id: number,
   sensor: SensorType,
   date: string,
   setChartData: SetterOrUpdater<Array<any>>,
   lang?: LanguageType,
 ) => {
-  axios
+  await axios
     .get(API_URL + sensorurl, {
       params: { date, kit_id, sensor },
       headers: headerConfig,
@@ -88,8 +88,24 @@ const controlSensorAPI = (
 const controlSensorStatusAPI = async (
   kit_id: number,
   sensor: ControlSensorType,
-  setDataFunc: Dispatch<SetStateAction<any>>,
-  setTimeFunc: Dispatch<SetStateAction<any>>,
+  setDataFunc: SetterOrUpdater<{
+    window: {
+      data: undefined;
+      time: string;
+    };
+    pump: {
+      data: undefined;
+      time: string;
+    };
+    fan: {
+      data: undefined;
+      time: string;
+    };
+    led: {
+      data: undefined;
+      time: string;
+    };
+  }>,
 ) => {
   await axios
     .get(API_URL + controlurl, {
@@ -97,14 +113,19 @@ const controlSensorStatusAPI = async (
       headers: headerConfig,
     })
     .then(async (response: AxiosResponse) => {
-      if (response.status === 200)
-        await setDataFunc((prev: any) => {
-          //console.log(response.data[0].time);
-          return { ...prev, [sensor]: Boolean(response.data[0].value) };
-        });
-      await setTimeFunc((prev: any) => {
-        return { ...prev, [sensor]: String(response.data[0].time) };
-      });
+      if (response.status === 200) {
+        response.data[0] &&
+          (await setDataFunc((prev: any) => {
+            //console.log(response.data[0].time);
+            return {
+              ...prev,
+              [sensor]: {
+                data: Boolean(response.data[0].value),
+                time: String(response.data[0].time),
+              },
+            };
+          }));
+      }
     })
     .catch((error) => {
       handleError(error);

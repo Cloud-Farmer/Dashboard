@@ -1,42 +1,32 @@
-import { useEffect, useState } from 'react';
 import {
   AreaChart,
+  Card,
+  Col,
+  ColGrid,
   LineChart,
+  Metric,
   Toggle,
   ToggleItem,
-  Dropdown,
-  DropdownItem,
-  ColGrid,
-  Col,
-  Card,
-  Flex,
-  Metric,
 } from '@tremor/react';
-import { useRecoilState } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { getSensorAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
 import {
+  dateFrequencyState,
   humDataState,
   illDataState,
   soilDataState,
   tempDataState,
-  dateDataState,
 } from '../state/atoms';
-import { SensorType } from '../type';
 import { languages } from '../util';
-import useKitId from '../hooks/useKitId';
-import Main from './Main';
 
-interface Props {
-  kit: number;
-  setKit: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const APIChart: React.FC<Props> = ({ kit, setKit }) => {
-  const [tempData, setTempData] = useRecoilState(tempDataState);
-  const [humData, setHumData] = useRecoilState(humDataState);
-  const [illData, setIllData] = useRecoilState(illDataState);
-  const [soilData, setSoilData] = useRecoilState(soilDataState);
+const APIChart = () => {
+  const tempData = useRecoilValue(tempDataState);
+  const humData = useRecoilValue(humDataState);
+  const illData = useRecoilValue(illDataState);
+  const soilData = useRecoilValue(soilDataState);
+  const setDay = useSetRecoilState(dateFrequencyState);
 
   const dataTypes = ['temperature', 'humidity', 'illuminance', 'soilHumidity'];
   const titleTypes = [
@@ -50,15 +40,6 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
 
   const [showCard, setShowCard] = useState(true);
   const [lang, setLang] = useLanguage();
-
-  const [day, setDay] = useState('1d');
-
-  useEffect(() => {
-    getSensorAPI(kit, 'temperature', day, setTempData, lang);
-    getSensorAPI(kit, 'humidity', day, setHumData, lang);
-    getSensorAPI(kit, 'illuminance', day, setIllData, lang);
-    getSensorAPI(kit, 'soilHumidity', day, setSoilData, lang);
-  }, [lang, kit, day]);
 
   const tempFormatter = (value: number) => value + 'C';
   const humFormatter = (value: number) => value + '%';
@@ -80,8 +61,8 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
   };
 
   return (
-    <>
-      <div className="flex justify-between place-items-center mb-1">
+    <div className="mx-5 mt-8">
+      <div className="flex justify-between place-items-center mb-4">
         <Toggle
           color="fuchsia"
           defaultValue={'1d'}
@@ -103,7 +84,7 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
       </div>
       <ColGrid numCols={2} gapX="gap-x-2" gapY="gap-y-2">
         {dataTypes.map((data, index) => (
-          <Col>
+          <Col key={data}>
             {' '}
             <Card>
               <div className="flex justify-between">
@@ -145,7 +126,7 @@ const APIChart: React.FC<Props> = ({ kit, setKit }) => {
           </Col>
         ))}
       </ColGrid>
-    </>
+    </div>
   );
 };
 

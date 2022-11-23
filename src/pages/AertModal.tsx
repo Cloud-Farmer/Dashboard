@@ -1,6 +1,5 @@
-import React, { ReactElement, useEffect } from 'react';
-import { Button, Flex, SelectBox, SelectBoxItem } from '@tremor/react';
-import { useState } from 'react';
+import { Button, SelectBox, SelectBoxItem } from '@tremor/react';
+import React, { ReactElement, useState } from 'react';
 import { alertsettingAPI } from '../api/sensor';
 
 interface props {

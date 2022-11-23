@@ -1,133 +1,136 @@
-import React, { useEffect } from 'react';
 import {
-  Col,
   Card,
-  Metric,
-  Toggle,
-  ToggleItem,
+  Col,
   ColGrid,
-  Title,
   List,
   ListItem,
+  Metric,
   Text,
+  Title,
+  Toggle,
+  ToggleItem,
 } from '@tremor/react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { controlSensorAPI, controlSensorStatusAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
 import { languages } from '../util';
-import { getCookie } from '../util/cookie';
+import { MdOutlineDoorSliding, MdWaterDrop } from 'react-icons/md';
+import { FaFan } from 'react-icons/fa';
+import { BsLightbulbFill } from 'react-icons/bs';
+import { useRecoilValue } from 'recoil';
+import { controlState } from '../state/atoms';
 
 type Props = {
   kit: number;
 };
 
 const Control: React.FC<Props> = ({ kit }) => {
-  const initValue = {
-    window: undefined,
-    pump: undefined,
-    fan: undefined,
-    led: undefined,
-  };
-  const inittime = {
-    window: '',
-    pump: '',
-    fan: '',
-    led: '',
-  };
+  const value = useRecoilValue(controlState);
 
   const [lang, setLang] = useLanguage();
-  const [loading, setLoading] = useState(true);
-  const [value, setValue] = useState(initValue);
-  const [time, setTime] = useState(inittime);
-
-  useEffect(() => {
-    const callAPI = async () => {
-      await controlSensorStatusAPI(kit, 'window', setValue, setTime);
-      await controlSensorStatusAPI(kit, 'pump', setValue, setTime);
-      await controlSensorStatusAPI(kit, 'fan', setValue, setTime);
-      await controlSensorStatusAPI(kit, 'led', setValue, setTime);
-      await setLoading(false);
-    };
-    console.log(time);
-    kit && callAPI();
-  }, [kit]);
 
   return (
-    <Col numColSpan={1} numColSpanLg={2}>
-      {!loading && (
-        <ColGrid numCols={2} gapX="gap-x-2" gapY="gap-y-2">
-          <Col>
-            <Card hFull>
-              <Metric>{languages.windowlang[lang]}</Metric>
-              <Toggle
-                color="blue"
-                defaultValue={value.window}
-                handleSelect={(value: boolean) => {
-                  controlSensorAPI(value, kit, 'window', lang);
-                }}
-                marginTop="mt-5"
-              >
-                <ToggleItem value={true} text="On" />
-                <ToggleItem value={false} text="Off" />
-              </Toggle>
-            </Card>
-          </Col>
-          <Col>
-            <Card hFull>
-              <Metric>{languages.pumplang[lang]}</Metric>
+    <div className="w-1/2 mb-5">
+      <ColGrid numCols={2} gapX="gap-x-2" gapY="gap-y-2">
+        <Col>
+          <Card hFull>
+            <div className="flex flex-row space-x-3 text-sky-300 items-start">
+              <div>
+                <p className="text-3xl font-extrabold m-0">
+                  {languages.windowlang[lang]}
+                </p>
+                <Toggle
+                  color="blue"
+                  defaultValue={value.window.data}
+                  handleSelect={(value: boolean) => {
+                    controlSensorAPI(value, kit, 'window', lang);
+                  }}
+                  marginTop="mt-5"
+                >
+                  <ToggleItem value={true} text="On" />
+                  <ToggleItem value={false} text="Off" />
+                </Toggle>
+              </div>
+              <MdOutlineDoorSliding className="w-full h-full p-2" />
+            </div>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <div className="flex flex-row space-x-3 text-pink-300 items-start">
+              <div>
+                <p className="text-3xl font-extrabold m-0">
+                  {languages.pumplang[lang]}
+                </p>
+                <Toggle
+                  color="blue"
+                  defaultValue={value.pump.data}
+                  handleSelect={(value: boolean) => {
+                    controlSensorAPI(value, kit, 'pump', lang);
+                  }}
+                  marginTop="mt-5"
+                >
+                  <ToggleItem value={true} text="On" />
+                  <ToggleItem value={false} text="Off" />
+                </Toggle>
+              </div>
+              <MdWaterDrop className="w-full h-full p-5" />
+            </div>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <div className="flex flex-row space-x-3 text-green-300 items-start">
+              <div>
+                <p className="text-3xl font-extrabold m-0">
+                  {languages.fanlang[lang]}
+                </p>
+                <Toggle
+                  color="blue"
+                  defaultValue={value.fan.data}
+                  handleSelect={(value: boolean) => {
+                    controlSensorAPI(value, kit, 'fan', lang);
+                  }}
+                  marginTop="mt-5"
+                >
+                  <ToggleItem value={true} text="On" />
+                  <ToggleItem value={false} text="Off" />
+                </Toggle>
+              </div>
+              <FaFan className="w-full h-full p-5" />
+            </div>
+          </Card>
+        </Col>
+        <Col>
+          <Card hFull>
+            <div className="flex flex-row space-x-3 text-orange-300 items-start">
+              <div>
+                <p className="text-3xl font-extrabold m-0">
+                  {languages.ledlang[lang]}
+                </p>
+                <Toggle
+                  color="blue"
+                  defaultValue={value.led.data}
+                  handleSelect={(value: boolean) => {
+                    controlSensorAPI(value, kit, 'led', lang);
+                  }}
+                  marginTop="mt-5"
+                >
+                  <ToggleItem value={true} text="On" />
+                  <ToggleItem value={false} text="Off" />
+                </Toggle>
+              </div>
+              <BsLightbulbFill className="w-full h-full p-5" />
+            </div>
+          </Card>
+        </Col>
+      </ColGrid>
 
-              <Toggle
-                color="blue"
-                defaultValue={value.pump}
-                handleSelect={(value: boolean) => {
-                  controlSensorAPI(value, kit, 'pump', lang);
-                }}
-                marginTop="mt-5"
-              >
-                <ToggleItem value={true} text="On" />
-                <ToggleItem value={false} text="Off" />
-              </Toggle>
-            </Card>
-          </Col>
-          <Col>
-            <Card hFull>
-              <Metric>{languages.fanlang[lang]}</Metric>
-              <Toggle
-                color="blue"
-                defaultValue={value.fan}
-                handleSelect={(value: boolean) => {
-                  controlSensorAPI(value, kit, 'fan', lang);
-                }}
-                marginTop="mt-5"
-              >
-                <ToggleItem value={true} text="On" />
-                <ToggleItem value={false} text="Off" />
-              </Toggle>
-            </Card>
-          </Col>
-          <Col>
-            <Card hFull>
-              <Metric>{languages.ledlang[lang]}</Metric>
-              <Toggle
-                color="blue"
-                defaultValue={value.led}
-                handleSelect={(value: boolean) => {
-                  controlSensorAPI(value, kit, 'led', lang);
-                }}
-                marginTop="mt-5"
-              >
-                <ToggleItem value={true} text="On" />
-                <ToggleItem value={false} text="Off" />
-              </Toggle>
-            </Card>
-          </Col>
-        </ColGrid>
-      )}
       <Card marginTop="mt-1.5">
         <Title>Actuator Log</Title>
         <List>
           <ListItem>
-            {(value.fan === true && (
+            {(value.fan.data === true && (
               <span>
                 <Text color="orange">팬이 작동중입니다</Text>
               </span>
@@ -136,10 +139,10 @@ const Control: React.FC<Props> = ({ kit }) => {
                 <Text color="orange">팬이 작동중이지 않습니다</Text>
               </span>
             )}
-            <span>{time.fan}</span>
+            <span>{value.fan.time}</span>
           </ListItem>
           <ListItem>
-            {(value.led === true && (
+            {(value.led.data === true && (
               <span>
                 <Text color="orange">조명이 작동중입니다</Text>
               </span>
@@ -148,10 +151,10 @@ const Control: React.FC<Props> = ({ kit }) => {
                 <Text color="orange">조명이 작동중이지 않습니다</Text>
               </span>
             )}
-            <span>{time.led}</span>
+            <span>{value.led.time}</span>
           </ListItem>
           <ListItem>
-            {(value.pump === true && (
+            {(value.pump.data === true && (
               <span>
                 <Text color="orange">급수 펌프 작동중입니다</Text>
               </span>
@@ -160,10 +163,10 @@ const Control: React.FC<Props> = ({ kit }) => {
                 <Text color="orange">급수 펌프가 작동중이지 않습니다</Text>
               </span>
             )}
-            <span>{time.pump}</span>
+            <span>{value.pump.time}</span>
           </ListItem>
           <ListItem>
-            {(value.window === true && (
+            {(value.window.data === true && (
               <span>
                 <Text color="orange">창문이 작동중입니다</Text>
               </span>
@@ -172,11 +175,11 @@ const Control: React.FC<Props> = ({ kit }) => {
                 <Text color="orange">창문이 작동중이지 않습니다</Text>
               </span>
             )}
-            <span>{time.window}</span>
+            <span>{value.window.time}</span>
           </ListItem>
         </List>
       </Card>
-    </Col>
+    </div>
   );
 };
 export default Control;

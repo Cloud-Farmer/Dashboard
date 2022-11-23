@@ -53,8 +53,8 @@ const languages: LanguageTextList = {
     en: 'Window',
   },
   pumplang: {
-    ko: '급수 펌프',
-    en: 'Water Pump',
+    ko: '급수펌프',
+    en: 'Pump',
   },
   fanlang: {
     ko: '팬',

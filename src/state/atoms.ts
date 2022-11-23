@@ -85,6 +85,20 @@ const newkitState = atom({
   ],
 });
 
+const controlState = atom({
+  key: 'controlState',
+  default: {
+    window: { data: undefined, time: '' },
+    pump: { data: undefined, time: '' },
+    fan: { data: undefined, time: '' },
+    led: { data: undefined, time: '' },
+  },
+});
+
+const dateFrequencyState = atom({
+  key: 'frequencyState',
+  default: '1d',
+});
 export {
   chartTypeState,
   tempDataState,
@@ -94,4 +108,6 @@ export {
   dateDataState,
   alertDataState,
   newkitState,
+  controlState,
+  dateFrequencyState,
 };
