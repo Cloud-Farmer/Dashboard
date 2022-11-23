@@ -1,4 +1,3 @@
-import React from 'react';
 import Lottie from 'react-lottie';
 import Cloudy from '../lottie/4806-weather-windy.json';
 

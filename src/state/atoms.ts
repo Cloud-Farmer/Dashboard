@@ -52,7 +52,53 @@ const dateDataState = atom({
     },
   ],
 });
+const alertDataState = atom({
+  key: 'alert',
+  default: {
+    alertResponseDtoList: [
+      {
+        subject: '',
+        messageKR: '',
+        messageENg: '',
+        status: '',
+        language: '',
+        alertedTime: new Date('2022-11-16T12:44:36.742z').toLocaleString(
+          'ko-KO',
+        ),
+      },
+    ],
+    totalElements: 1,
+    totalPages: 1,
+  },
+});
+const newkitState = atom({
+  key: 'newkit',
+  default: [
+    {
+      id: 1,
+      alias: 'KIT 1',
+    },
+    {
+      id: 2,
+      alias: 'KIT 2',
+    },
+  ],
+});
 
+const controlState = atom({
+  key: 'controlState',
+  default: {
+    window: { data: undefined, time: '' },
+    pump: { data: undefined, time: '' },
+    fan: { data: undefined, time: '' },
+    led: { data: undefined, time: '' },
+  },
+});
+
+const dateFrequencyState = atom({
+  key: 'frequencyState',
+  default: '1d',
+});
 export {
   chartTypeState,
   tempDataState,
@@ -60,4 +106,8 @@ export {
   illDataState,
   soilDataState,
   dateDataState,
+  alertDataState,
+  newkitState,
+  controlState,
+  dateFrequencyState,
 };

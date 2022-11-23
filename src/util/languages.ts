@@ -53,8 +53,8 @@ const languages: LanguageTextList = {
     en: 'Window',
   },
   pumplang: {
-    ko: '급수 펌프',
-    en: 'Water Pump',
+    ko: '급수펌프',
+    en: 'Pump',
   },
   fanlang: {
     ko: '팬',
@@ -103,6 +103,10 @@ const languages: LanguageTextList = {
   frequency_1y: {
     ko: '1년',
     en: '1Y',
+  },
+  autolang: {
+    ko: '자동 제어 모드',
+    en: 'Auto Control Mode',
   },
 };
 

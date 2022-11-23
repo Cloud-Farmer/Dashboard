@@ -1,4 +1,3 @@
-import React from 'react';
 import Lottie from 'react-lottie';
 import Rain from '../lottie/4803-weather-storm.json';
 

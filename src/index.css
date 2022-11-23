@@ -11,8 +11,8 @@
   padding: 0;
 
   color-scheme: light dark;
-  color: #000000;
-  background-color: #f2f2f2;
+  color: white;
+  background-color: #1e293b;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -31,4 +31,33 @@ body {
 #root {
   width: 100%;
   height: 100%;
+}
+
+.tr-ring-gray-200 {
+  background-color: #0f172a;
+  --tw-ring-color: #475569;
+}
+
+.tr-bg-gray-100 {
+  background-color: #334155;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.tr-text-gray-700 {
+  color: white;
+}
+
+.tr-text-gray-500 {
+  color: white;
+}
+
+.tr-bg-white {
+  background-color: #0f172a;
+}
+
+.hover\:tr-bg-gray-50:hover {
+  background-color: #0f172a;
 }

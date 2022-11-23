@@ -1,13 +1,12 @@
-import React from 'react';
-import { Col, Card, Text, Metric, Flex, BadgeDelta } from '@tremor/react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { Card, Col, Flex, Metric } from '@tremor/react';
+import { useRecoilValue } from 'recoil';
+import { useLanguage } from '../hooks';
 import {
   humDataState,
   illDataState,
   soilDataState,
   tempDataState,
 } from '../state/atoms';
-import { useLanguage } from '../hooks';
 import { languages } from '../util';
 
 export default () => {
