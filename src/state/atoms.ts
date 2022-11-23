@@ -59,7 +59,7 @@ const alertDataState = atom({
       {
         subject: '',
         messageKR: '',
-        messageENg: '',
+        messageEng: '',
         status: '',
         language: '',
         alertedTime: new Date('2022-11-16T12:44:36.742z').toLocaleString(
