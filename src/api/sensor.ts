@@ -124,7 +124,7 @@ const controlSensorStatusAPI = async (
                 time:
                   String(response.data[0].time).substring(0, 10) +
                   ' ' +
-                  String(response.data[0].time).substring(12, 16),
+                  String(response.data[0].time).substring(11, 16),
               },
             };
           }));
@@ -171,7 +171,7 @@ const alertsettingAPI = async (
       headers: headerConfig,
     })
     .then((response) => {
-      console.log(response);
+      toast.success(response.data);
     })
     .catch((error) => {
       handleError(error);
@@ -186,12 +186,13 @@ const AutocontrolAPI = (kitid: number, value: number) => {
       headers: headerConfig,
     })
     .then((response) => {
-      console.log(response);
+      toast.success(response.data);
     })
     .catch((error) => {
       handleError(error);
     });
 };
+
 const AutocontrolStatusAPI = async (
   kit_id: number,
   setValue: React.Dispatch<any>,
@@ -209,6 +210,34 @@ const AutocontrolStatusAPI = async (
     });
 };
 
+const getAllKits = async (setKitData: SetterOrUpdater<any>) => {
+  await axios
+    .get(API_URL + autocontrolurl, {
+      params: { page: 0, size: 10 },
+      headers: headerConfig,
+    })
+    .then(async (response: AxiosResponse) => {
+      setKitData(response.data);
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+};
+
+const deleteKits = async (kitId: number) => {
+  await axios
+    .delete(API_URL + '/kit/delete', {
+      params: { kitId },
+      headers: headerConfig,
+    })
+    .then((response: AxiosResponse) => {
+      toast.success(response.data);
+    })
+    .catch((error) => {
+      handleError(error);
+    });
+};
+
 export {
   getSensorAPI,
   controlSensorAPI,
@@ -218,4 +247,6 @@ export {
   alertsettingAPI,
   AutocontrolAPI,
   AutocontrolStatusAPI,
+  getAllKits,
+  deleteKits,
 };

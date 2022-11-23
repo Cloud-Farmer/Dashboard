@@ -110,7 +110,7 @@ const languages: LanguageTextList = {
   },
   weatherlocation: {
     ko: '김해시 활천동',
-    en: 'Hwacheon-dong, Gimhae',
+    en: 'Hwalcheon-dong, Gimhae-si',
   },
   langmangementlang: {
     ko: '언어 관리',
@@ -151,6 +151,26 @@ const languages: LanguageTextList = {
   noactuatorwindow: {
     ko: '창문이 작동중이지 않습니다',
     en: 'Window Not Working',
+  },
+  updated: {
+    ko: '최신 업데이트',
+    en: 'updated',
+  },
+  datafetched: {
+    ko: '데이터 로딩 완료',
+    en: 'Data fetched',
+  },
+  add: {
+    ko: '추가',
+    en: 'ADD',
+  },
+  remove: {
+    ko: '삭제',
+    en: 'REMOVE',
+  },
+  setupalert: {
+    ko: '알람 설정',
+    en: 'SETUP ALERT',
   },
 };
 
