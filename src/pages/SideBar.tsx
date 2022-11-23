@@ -49,6 +49,7 @@ const Sidebar: React.FC<Props> = ({
   const hour = ('0' + date.getHours()).slice(-2);
   const minute = ('0' + date.getMinutes()).slice(-2);
   const timestr = hours;
+  const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
   const [change, setchange] = useState(0);
   const [temp, settemp] = useState('');
   const [autoControlStatus, setAutoControlStatus] = useState<any>();
@@ -56,7 +57,6 @@ const Sidebar: React.FC<Props> = ({
   const [kits, setkits] = useRecoilState(allkitsState);
   const [modal, setmodal] = useState(false);
   const [alert, setalert] = useState(false);
-  const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
 
   const url = WEATHER_URL + '/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
@@ -139,7 +139,7 @@ const Sidebar: React.FC<Props> = ({
             <h3>{languages.kitmangementlang[lang]}</h3>
             <div className="flex space-x-2 items-stretch justify-center">
               <Button
-                text="추가"
+                text={languages.add[lang]}
                 size="md"
                 importance="primary"
                 handleClick={() => {
@@ -162,7 +162,7 @@ const Sidebar: React.FC<Props> = ({
               </SelectBox>
               {kit !== 1 && (
                 <Button
-                  text="삭제"
+                  text={languages.remove[lang]}
                   size="md"
                   importance="primary"
                   handleClick={async () => {
@@ -191,18 +191,16 @@ const Sidebar: React.FC<Props> = ({
                 <ToggleItem value={1} text="ON" />
                 <ToggleItem value={0} text="OFF" />
               </Toggle>
-              {autoControlStatus === 1 && (
-                <Button
-                  color="blue"
-                  text="알람 세팅"
-                  size="md"
-                  marginTop="mt-4"
-                  importance="primary"
-                  handleClick={() => {
-                    setalert(true);
-                  }}
-                />
-              )}
+              <Button
+                color="blue"
+                text={languages.setupalert[lang]}
+                size="md"
+                marginTop="mt-4"
+                importance="primary"
+                handleClick={() => {
+                  setalert(true);
+                }}
+              />
             </div>
           </div>
         )}
