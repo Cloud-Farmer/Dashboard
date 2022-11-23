@@ -7,11 +7,13 @@
     "dev": "vite",
     "start": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "pm2 start \"serve -s dist -p 3000\" --name simji-frontend"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
     "@tremor/react": "^1.0.8",
+    "@types/node": "^18.11.9",
     "@types/react-lottie": "^1.2.6",
     "axios": "^1.1.3",
     "react": "^18.2.0",
@@ -38,6 +40,7 @@
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.18",
+    "postcss-nesting": "^10.2.0",
     "tailwindcss": "^3.2.2",
     "typescript": "^4.6.4",
     "vite": "^3.1.0",
