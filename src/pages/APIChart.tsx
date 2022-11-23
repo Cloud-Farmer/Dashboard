@@ -8,9 +8,8 @@ import {
   Toggle,
   ToggleItem,
 } from '@tremor/react';
-import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { getSensorAPI } from '../api/sensor';
+import { useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLanguage } from '../hooks';
 import {
   dateFrequencyState,
@@ -87,9 +86,11 @@ const APIChart = () => {
           <Col key={data}>
             {' '}
             <Card>
-              <div className="flex justify-between">
-                <Metric>{languages[titleTypes[index]][lang]}</Metric>
-                <Metric>
+              <div className="flex justify-between items-center">
+                <p className="text-3xl font-extrabold my-0">
+                  {languages[titleTypes[index]][lang]}
+                </p>
+                <p className="text-5xl font-light my-0">
                   {(data === 'temperature' &&
                     tempData[tempData.length - 1].temperature + 'C°') ||
                     (data === 'humidity' &&
@@ -98,7 +99,7 @@ const APIChart = () => {
                       illData[illData.length - 1].illuminance + 'lx') ||
                     (data === 'soilHumidity' &&
                       soilData[soilData.length - 1].soilHumidity + '%')}
-                </Metric>
+                </p>
               </div>
               {showCard ? (
                 <AreaChart

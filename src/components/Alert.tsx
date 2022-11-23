@@ -10,8 +10,8 @@ const Alert = (): any => {
       <Card maxWidth="max-w-none">
         <Title>Alert Log</Title>
         <List marginTop="mt-1.5">
-          {alertData.alertResponseDtoList.map((item) => (
-            <ListItem key={item.alertedTime}>
+          {alertData.alertResponseDtoList.map((item, index) => (
+            <ListItem key={item.alertedTime + index}>
               <span>{'🔔'}</span>
               <span>
                 <Text color="blue">{item.subject}</Text>

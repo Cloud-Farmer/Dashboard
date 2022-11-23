@@ -1,3 +1,4 @@
+import { WEATHER_URL } from '@src/constants/constants';
 import {
   Button,
   SelectBox,
@@ -52,7 +53,7 @@ const Sidebar: React.FC<Props> = ({
   const [alert, setalert] = useState(false);
   const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
 
-  const url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
+  const url = WEATHER_URL + '/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
   const callWeather = async () => {
     await axios

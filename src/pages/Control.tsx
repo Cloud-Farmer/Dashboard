@@ -4,21 +4,20 @@ import {
   ColGrid,
   List,
   ListItem,
-  Metric,
   Text,
   Title,
   Toggle,
   ToggleItem,
 } from '@tremor/react';
-import React, { useEffect, useState } from 'react';
-import { controlSensorAPI, controlSensorStatusAPI } from '../api/sensor';
-import { useLanguage } from '../hooks';
-import { languages } from '../util';
-import { MdOutlineDoorSliding, MdWaterDrop } from 'react-icons/md';
-import { FaFan } from 'react-icons/fa';
+import React from 'react';
 import { BsLightbulbFill } from 'react-icons/bs';
+import { FaFan } from 'react-icons/fa';
+import { MdOutlineDoorSliding, MdWaterDrop } from 'react-icons/md';
 import { useRecoilValue } from 'recoil';
+import { controlSensorAPI } from '../api/sensor';
+import { useLanguage } from '../hooks';
 import { controlState } from '../state/atoms';
+import { languages } from '../util';
 
 type Props = {
   kit: number;
