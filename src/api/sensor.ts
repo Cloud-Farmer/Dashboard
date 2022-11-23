@@ -121,7 +121,10 @@ const controlSensorStatusAPI = async (
               ...prev,
               [sensor]: {
                 data: Boolean(response.data[0].value),
-                time: String(response.data[0].time),
+                time:
+                  String(response.data[0].time).substring(0, 10) +
+                  ' ' +
+                  String(response.data[0].time).substring(12, 16),
               },
             };
           }));

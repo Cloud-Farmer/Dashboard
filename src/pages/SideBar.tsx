@@ -111,7 +111,9 @@ const Sidebar: React.FC<Props> = ({
         ) : (
           <div className="flex flex-col px-5 text-center items-center justify-center text-white">
             <div className="flex flex-col bg-slate-900 rounded-3xl py-2 justify-center items-center">
-              <p className="text-xl font-normal my-0">김해시 활천동 날씨</p>
+              <p className="text-xl font-normal my-0">
+                {languages.weatherlocation[lang]}
+              </p>
               <div className="px-10 w-2/3 h-2/3">
                 {(change == 0 && <Sunny />) ||
                   (change == 1 && <Rain />) ||
@@ -120,12 +122,12 @@ const Sidebar: React.FC<Props> = ({
               </div>
               <p className="text-2xl my-2 mt-[-20px] font-light">{temp}C°</p>
             </div>
-            <h3>{'Language Management'}</h3>
+            <h3>{languages.langmangementlang[lang]}</h3>
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
               <ToggleItem value="en" text="🇬🇧 English" />
               <ToggleItem value="ko" text="🇰🇷 한국어" />
             </Toggle>
-            <h3>{'Kit Management'}</h3>
+            <h3>{languages.kitmangementlang[lang]}</h3>
             <div className="flex space-x-2 items-stretch justify-center">
               <Button
                 text="추가"

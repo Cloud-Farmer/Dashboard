@@ -102,7 +102,7 @@ const Control: React.FC<Props> = ({ kit }) => {
         </Col>
         <Col>
           <Card hFull>
-            <div className="flex flex-row space-x-3 text-orange-300 items-start">
+            <div className="flex flex-row space-x-3 text-blue-300 items-start">
               <div>
                 <p className="text-3xl font-extrabold m-0">
                   {languages.ledlang[lang]}
@@ -129,52 +129,76 @@ const Control: React.FC<Props> = ({ kit }) => {
         <Title>Actuator Log</Title>
         <List>
           <ListItem>
-            {(value.fan.data === true && (
+            {
               <span>
-                <Text color="orange">팬이 작동중입니다</Text>
+                <Text color={value.fan.data ? 'blue' : 'orange'}>
+                  {value.fan.data
+                    ? languages.actuatorfan[lang]
+                    : languages.noactuatorfan[lang]}
+                </Text>
               </span>
-            )) || (
+            }
+            {
               <span>
-                <Text color="orange">팬이 작동중이지 않습니다</Text>
+                <Text color={value.fan.data ? 'blue' : 'orange'}>
+                  {value.fan.time}
+                </Text>
               </span>
-            )}
-            <span>{value.fan.time}</span>
+            }
           </ListItem>
           <ListItem>
-            {(value.led.data === true && (
+            {
               <span>
-                <Text color="orange">조명이 작동중입니다</Text>
+                <Text color={value.led.data ? 'blue' : 'orange'}>
+                  {value.led.data
+                    ? languages.actuatorled[lang]
+                    : languages.noactuatorled[lang]}
+                </Text>
               </span>
-            )) || (
+            }
+            {
               <span>
-                <Text color="orange">조명이 작동중이지 않습니다</Text>
+                <Text color={value.led.data ? 'blue' : 'orange'}>
+                  {value.led.time}
+                </Text>
               </span>
-            )}
-            <span>{value.led.time}</span>
+            }
           </ListItem>
           <ListItem>
-            {(value.pump.data === true && (
+            {
               <span>
-                <Text color="orange">급수 펌프 작동중입니다</Text>
+                <Text color={value.pump.data ? 'blue' : 'orange'}>
+                  {value.pump.data
+                    ? languages.actuatorpump[lang]
+                    : languages.noactuatorpump[lang]}
+                </Text>
               </span>
-            )) || (
+            }
+            {
               <span>
-                <Text color="orange">급수 펌프가 작동중이지 않습니다</Text>
+                <Text color={value.pump.data ? 'blue' : 'orange'}>
+                  {value.pump.time}
+                </Text>
               </span>
-            )}
-            <span>{value.pump.time}</span>
+            }
           </ListItem>
           <ListItem>
-            {(value.window.data === true && (
+            {
               <span>
-                <Text color="orange">창문이 작동중입니다</Text>
+                <Text color={value.window.data ? 'blue' : 'orange'}>
+                  {value.window.data
+                    ? languages.actuatorwindow[lang]
+                    : languages.noactuatorwindow[lang]}
+                </Text>
               </span>
-            )) || (
+            }
+            {
               <span>
-                <Text color="orange">창문이 작동중이지 않습니다</Text>
+                <Text color={value.window.data ? 'blue' : 'orange'}>
+                  {value.window.time}
+                </Text>
               </span>
-            )}
-            <span>{value.window.time}</span>
+            }
           </ListItem>
         </List>
       </Card>
