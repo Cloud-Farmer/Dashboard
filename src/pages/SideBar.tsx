@@ -10,14 +10,19 @@ import axios from 'axios';
 import React, { ReactElement, useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
-import { AutocontrolAPI, AutocontrolStatusAPI } from '../api/sensor';
+import {
+  AutocontrolAPI,
+  AutocontrolStatusAPI,
+  deleteKits,
+  getAllKits,
+} from '../api/sensor';
 import Loading from '../assets/99257-loading-gif-animation.json';
 import Modal from '../components/Modal';
 import Cloudy from '../lottie/Cloudy';
 import Rain from '../lottie/Rain';
 import Snow from '../lottie/Snow';
 import Sunny from '../lottie/sunny';
-import { newkitState } from '../state/atoms';
+import { allkitsState, newkitState } from '../state/atoms';
 import { LanguageType } from '../type';
 import { languages } from '../util';
 import AlertModal from './AertModal';
@@ -48,7 +53,7 @@ const Sidebar: React.FC<Props> = ({
   const [temp, settemp] = useState('');
   const [autoControlStatus, setAutoControlStatus] = useState<any>();
   const [loading, setLoading] = useState(true);
-  const [kits, setkits] = useRecoilState(newkitState);
+  const [kits, setkits] = useRecoilState(allkitsState);
   const [modal, setmodal] = useState(false);
   const [alert, setalert] = useState(false);
   const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
@@ -78,6 +83,10 @@ const Sidebar: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    getAllKits(setkits);
+  }, [modal]);
+
+  useEffect(() => {
     callWeather();
   }, []);
 
@@ -99,7 +108,7 @@ const Sidebar: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col w-1/4 justify-center h-[100vh]">
-      <div className="bg-slate-800 h-full flex flex-col justify-center items-center">
+      <div className="bg-slate-800 h-full flex flex-col justify-center items-center relative">
         <p className="text-3xl m-0 text-center mt-5 p-3 font-black">{`${languages.logo[lang]}`}</p>
         {loading ? (
           <Lottie
@@ -118,7 +127,7 @@ const Sidebar: React.FC<Props> = ({
                   (change == 3 && <Snow />) ||
                   (change == 5 && <Cloudy />)}
               </div>
-              <p className="text-2xl my-2 mt-[-20px] font-light">{temp}C°</p>
+              <p className="text-3xl my-2 mt-[-5px] font-light">{temp}C°</p>
             </div>
             <h3>{'Language Management'}</h3>
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
@@ -136,15 +145,30 @@ const Sidebar: React.FC<Props> = ({
                 }}
               />
               <SelectBox
-                defaultValue={kits[0].id}
+                defaultValue={1}
                 handleSelect={(value) => {
                   setKit(value);
                 }}
               >
                 {kits.map((v) => (
-                  <SelectBoxItem key={v.id} value={v.id} text={v.alias} />
+                  <SelectBoxItem
+                    key={v.id}
+                    value={v.id}
+                    text={'KIT ' + String(v.id)}
+                  />
                 ))}
               </SelectBox>
+              {kit !== 1 && (
+                <Button
+                  text="삭제"
+                  size="md"
+                  importance="primary"
+                  handleClick={async () => {
+                    await deleteKits(kit);
+                    await setKit(1);
+                  }}
+                />
+              )}
             </div>
             <h3>{languages.autolang[lang]}</h3>
             <div className="space-x-2">
@@ -167,7 +191,7 @@ const Sidebar: React.FC<Props> = ({
               </Toggle>
               {autoControlStatus === 1 && (
                 <Button
-                  color="sky"
+                  color="blue"
                   text="알람 세팅"
                   size="md"
                   marginTop="mt-4"

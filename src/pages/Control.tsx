@@ -13,8 +13,8 @@ import React from 'react';
 import { BsLightbulbFill } from 'react-icons/bs';
 import { FaFan } from 'react-icons/fa';
 import { MdOutlineDoorSliding, MdWaterDrop } from 'react-icons/md';
-import { useRecoilValue } from 'recoil';
-import { controlSensorAPI } from '../api/sensor';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { controlSensorAPI, controlSensorStatusAPI } from '../api/sensor';
 import { useLanguage } from '../hooks';
 import { controlState } from '../state/atoms';
 import { languages } from '../util';
@@ -25,6 +25,13 @@ type Props = {
 
 const Control: React.FC<Props> = ({ kit }) => {
   const value = useRecoilValue(controlState);
+  const setControlStatus = useSetRecoilState(controlState);
+  const callAcutatorAPI = async () => {
+    await controlSensorStatusAPI(kit, 'window', setControlStatus);
+    await controlSensorStatusAPI(kit, 'pump', setControlStatus);
+    await controlSensorStatusAPI(kit, 'fan', setControlStatus);
+    await controlSensorStatusAPI(kit, 'led', setControlStatus);
+  };
 
   const [lang, setLang] = useLanguage();
 
@@ -33,16 +40,17 @@ const Control: React.FC<Props> = ({ kit }) => {
       <ColGrid numCols={2} gapX="gap-x-2" gapY="gap-y-2">
         <Col>
           <Card hFull>
-            <div className="flex flex-row space-x-3 text-sky-300 items-start">
-              <div>
-                <p className="text-3xl font-extrabold m-0">
+            <div className="flex flex-row space-x-3 text-emerald-300 items-start justify-between">
+              <div className="w-1/2">
+                <p className="text-2xl font-extrabold m-0">
                   {languages.windowlang[lang]}
                 </p>
                 <Toggle
                   color="blue"
                   defaultValue={value.window.data}
-                  handleSelect={(value: boolean) => {
-                    controlSensorAPI(value, kit, 'window', lang);
+                  handleSelect={async (value: boolean) => {
+                    await controlSensorAPI(value, kit, 'window', lang);
+                    await callAcutatorAPI();
                   }}
                   marginTop="mt-5"
                 >
@@ -50,22 +58,23 @@ const Control: React.FC<Props> = ({ kit }) => {
                   <ToggleItem value={false} text="Off" />
                 </Toggle>
               </div>
-              <MdOutlineDoorSliding className="w-full h-full p-2" />
+              <MdOutlineDoorSliding className="text-6xl" />
             </div>
           </Card>
         </Col>
         <Col>
           <Card hFull>
-            <div className="flex flex-row space-x-3 text-pink-300 items-start">
-              <div>
-                <p className="text-3xl font-extrabold m-0">
+            <div className="flex flex-row space-x-3 text-sky-300 items-start justify-between">
+              <div className="w-1/2">
+                <p className="text-2xl font-extrabold m-0">
                   {languages.pumplang[lang]}
                 </p>
                 <Toggle
                   color="blue"
                   defaultValue={value.pump.data}
-                  handleSelect={(value: boolean) => {
-                    controlSensorAPI(value, kit, 'pump', lang);
+                  handleSelect={async (value: boolean) => {
+                    await controlSensorAPI(value, kit, 'pump', lang);
+                    await callAcutatorAPI();
                   }}
                   marginTop="mt-5"
                 >
@@ -73,22 +82,23 @@ const Control: React.FC<Props> = ({ kit }) => {
                   <ToggleItem value={false} text="Off" />
                 </Toggle>
               </div>
-              <MdWaterDrop className="w-full h-full p-5" />
+              <MdWaterDrop className="text-6xl" />
             </div>
           </Card>
         </Col>
         <Col>
           <Card hFull>
-            <div className="flex flex-row space-x-3 text-green-300 items-start">
-              <div>
-                <p className="text-3xl font-extrabold m-0">
+            <div className="flex flex-row space-x-3 text-violet-300 items-start justify-between">
+              <div className="w-1/2">
+                <p className="text-2xl font-extrabold m-0">
                   {languages.fanlang[lang]}
                 </p>
                 <Toggle
                   color="blue"
                   defaultValue={value.fan.data}
-                  handleSelect={(value: boolean) => {
-                    controlSensorAPI(value, kit, 'fan', lang);
+                  handleSelect={async (value: boolean) => {
+                    await controlSensorAPI(value, kit, 'fan', lang);
+                    await callAcutatorAPI();
                   }}
                   marginTop="mt-5"
                 >
@@ -96,22 +106,23 @@ const Control: React.FC<Props> = ({ kit }) => {
                   <ToggleItem value={false} text="Off" />
                 </Toggle>
               </div>
-              <FaFan className="w-full h-full p-5" />
+              <FaFan className="text-6xl" />
             </div>
           </Card>
         </Col>
         <Col>
           <Card hFull>
-            <div className="flex flex-row space-x-3 text-orange-300 items-start">
-              <div>
-                <p className="text-3xl font-extrabold m-0">
+            <div className="flex flex-row space-x-3 text-orange-300 items-start justify-between">
+              <div className="w-1/2">
+                <p className="text-2xl font-extrabold m-0">
                   {languages.ledlang[lang]}
                 </p>
                 <Toggle
                   color="blue"
                   defaultValue={value.led.data}
-                  handleSelect={(value: boolean) => {
-                    controlSensorAPI(value, kit, 'led', lang);
+                  handleSelect={async (value: boolean) => {
+                    await controlSensorAPI(value, kit, 'led', lang);
+                    await callAcutatorAPI();
                   }}
                   marginTop="mt-5"
                 >
@@ -119,7 +130,7 @@ const Control: React.FC<Props> = ({ kit }) => {
                   <ToggleItem value={false} text="Off" />
                 </Toggle>
               </div>
-              <BsLightbulbFill className="w-full h-full p-5" />
+              <BsLightbulbFill className="text-6xl" />
             </div>
           </Card>
         </Col>

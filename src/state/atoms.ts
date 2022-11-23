@@ -99,6 +99,12 @@ const dateFrequencyState = atom({
   key: 'frequencyState',
   default: '1d',
 });
+
+const allkitsState = atom({
+  key: 'allkitsState',
+  default: [{ id: 1 }, { id: 2 }],
+});
+
 export {
   chartTypeState,
   tempDataState,
@@ -110,4 +116,5 @@ export {
   newkitState,
   controlState,
   dateFrequencyState,
+  allkitsState,
 };
