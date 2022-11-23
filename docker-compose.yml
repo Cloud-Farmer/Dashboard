@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  smartfarm-fe:
+    container_name: smartfarm-frontend
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=production
+      - TZ=Asia/Seoul

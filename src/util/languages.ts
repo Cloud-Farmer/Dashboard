@@ -108,6 +108,70 @@ const languages: LanguageTextList = {
     ko: '자동 제어 모드',
     en: 'Auto Control Mode',
   },
+  weatherlocation: {
+    ko: '김해시 활천동',
+    en: 'Hwalcheon-dong, Gimhae-si',
+  },
+  langmangementlang: {
+    ko: '언어 관리',
+    en: 'Language Management',
+  },
+  kitmangementlang: {
+    ko: '키트 관리',
+    en: 'Kit Management',
+  },
+  actuatorfan: {
+    ko: '팬이 작동중입니다',
+    en: 'Fan Working',
+  },
+  actuatorled: {
+    ko: '조명이 작동중입니다',
+    en: 'LED Working',
+  },
+  actuatorpump: {
+    ko: '급수 펌프가 작동중입니다',
+    en: 'Pump Working',
+  },
+  actuatorwindow: {
+    ko: '창문이 작동중입니다',
+    en: 'Window Working',
+  },
+  noactuatorfan: {
+    ko: '팬이 작동중이지 않습니다',
+    en: 'Fan Not Working',
+  },
+  noactuatorled: {
+    ko: '조명이 작동중이지 않습니다',
+    en: 'LED Not Working',
+  },
+  noactuatorpump: {
+    ko: '급수 펌프가 작동중이지 않습니다',
+    en: 'Pump Not Working',
+  },
+  noactuatorwindow: {
+    ko: '창문이 작동중이지 않습니다',
+    en: 'Window Not Working',
+  },
+  updated: {
+    ko: '최신 업데이트',
+    en: 'updated',
+  },
+  datafetched: {
+    ko: '데이터 로딩 완료',
+    en: 'Data fetched',
+  },
+  add: {
+    ko: '추가',
+    en: 'ADD',
+  },
+  remove: {
+    ko: '삭제',
+    en: 'REMOVE',
+  },
+  setupalert: {
+    ko: '알람 설정',
+    en: 'SETUP ALERT',
+  },
 };
 
 export default languages;

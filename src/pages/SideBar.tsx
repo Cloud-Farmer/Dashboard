@@ -1,3 +1,4 @@
+import { WEATHER_URL } from '@src/constants/constants';
 import {
   Button,
   SelectBox,
@@ -9,14 +10,19 @@ import axios from 'axios';
 import React, { ReactElement, useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
 import { useRecoilState } from 'recoil';
-import { AutocontrolAPI, AutocontrolStatusAPI } from '../api/sensor';
+import {
+  AutocontrolAPI,
+  AutocontrolStatusAPI,
+  deleteKits,
+  getAllKits,
+} from '../api/sensor';
 import Loading from '../assets/99257-loading-gif-animation.json';
 import Modal from '../components/Modal';
 import Cloudy from '../lottie/Cloudy';
 import Rain from '../lottie/Rain';
 import Snow from '../lottie/Snow';
 import Sunny from '../lottie/sunny';
-import { newkitState } from '../state/atoms';
+import { allkitsState, newkitState } from '../state/atoms';
 import { LanguageType } from '../type';
 import { languages } from '../util';
 import AlertModal from './AertModal';
@@ -43,16 +49,16 @@ const Sidebar: React.FC<Props> = ({
   const hour = ('0' + date.getHours()).slice(-2);
   const minute = ('0' + date.getMinutes()).slice(-2);
   const timestr = hours;
+  const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
   const [change, setchange] = useState(0);
   const [temp, settemp] = useState('');
   const [autoControlStatus, setAutoControlStatus] = useState<any>();
   const [loading, setLoading] = useState(true);
-  const [kits, setkits] = useRecoilState(newkitState);
+  const [kits, setkits] = useRecoilState(allkitsState);
   const [modal, setmodal] = useState(false);
   const [alert, setalert] = useState(false);
-  const nowtime = year + '-' + month + '-' + day + '-' + hour + ':' + minute;
 
-  const url = '/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
+  const url = WEATHER_URL + '/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
   const callWeather = async () => {
     await axios
@@ -77,6 +83,10 @@ const Sidebar: React.FC<Props> = ({
   };
 
   useEffect(() => {
+    getAllKits(setkits);
+  }, [modal]);
+
+  useEffect(() => {
     callWeather();
   }, []);
 
@@ -98,7 +108,7 @@ const Sidebar: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col w-1/4 justify-center h-[100vh]">
-      <div className="bg-slate-800 h-full flex flex-col justify-center items-center">
+      <div className="bg-slate-800 h-full flex flex-col justify-center items-center relative">
         <p className="text-3xl m-0 text-center mt-5 p-3 font-black">{`${languages.logo[lang]}`}</p>
         {loading ? (
           <Lottie
@@ -110,24 +120,26 @@ const Sidebar: React.FC<Props> = ({
         ) : (
           <div className="flex flex-col px-5 text-center items-center justify-center text-white">
             <div className="flex flex-col bg-slate-900 rounded-3xl py-2 justify-center items-center">
-              <p className="text-xl font-normal my-0">김해시 활천동 날씨</p>
+              <p className="text-xl font-normal my-0">
+                {languages.weatherlocation[lang]}
+              </p>
               <div className="px-10 w-2/3 h-2/3">
                 {(change == 0 && <Sunny />) ||
                   (change == 1 && <Rain />) ||
                   (change == 3 && <Snow />) ||
                   (change == 5 && <Cloudy />)}
               </div>
-              <p className="text-2xl my-2 mt-[-20px] font-light">{temp}C°</p>
+              <p className="text-3xl my-2 mt-[-5px] font-light">{temp}C°</p>
             </div>
-            <h3>{'Language Management'}</h3>
+            <h3>{languages.langmangementlang[lang]}</h3>
             <Toggle color="blue" defaultValue={lang} handleSelect={setLang}>
               <ToggleItem value="en" text="🇬🇧 English" />
               <ToggleItem value="ko" text="🇰🇷 한국어" />
             </Toggle>
-            <h3>{'Kit Management'}</h3>
+            <h3>{languages.kitmangementlang[lang]}</h3>
             <div className="flex space-x-2 items-stretch justify-center">
               <Button
-                text="추가"
+                text={languages.add[lang]}
                 size="md"
                 importance="primary"
                 handleClick={() => {
@@ -135,15 +147,30 @@ const Sidebar: React.FC<Props> = ({
                 }}
               />
               <SelectBox
-                defaultValue={kits[0].id}
+                defaultValue={1}
                 handleSelect={(value) => {
                   setKit(value);
                 }}
               >
                 {kits.map((v) => (
-                  <SelectBoxItem key={v.id} value={v.id} text={v.alias} />
+                  <SelectBoxItem
+                    key={v.id}
+                    value={v.id}
+                    text={'KIT ' + String(v.id)}
+                  />
                 ))}
               </SelectBox>
+              {kit !== 1 && (
+                <Button
+                  text={languages.remove[lang]}
+                  size="md"
+                  importance="primary"
+                  handleClick={async () => {
+                    await deleteKits(kit);
+                    await setKit(1);
+                  }}
+                />
+              )}
             </div>
             <h3>{languages.autolang[lang]}</h3>
             <div className="space-x-2">
@@ -164,18 +191,16 @@ const Sidebar: React.FC<Props> = ({
                 <ToggleItem value={1} text="ON" />
                 <ToggleItem value={0} text="OFF" />
               </Toggle>
-              {autoControlStatus === 1 && (
-                <Button
-                  color="sky"
-                  text="알람 세팅"
-                  size="md"
-                  marginTop="mt-4"
-                  importance="primary"
-                  handleClick={() => {
-                    setalert(true);
-                  }}
-                />
-              )}
+              <Button
+                color="blue"
+                text={languages.setupalert[lang]}
+                size="md"
+                marginTop="mt-4"
+                importance="primary"
+                handleClick={() => {
+                  setalert(true);
+                }}
+              />
             </div>
           </div>
         )}
