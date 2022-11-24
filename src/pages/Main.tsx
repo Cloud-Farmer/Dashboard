@@ -45,7 +45,6 @@ const Main = () => {
   const [updatedTime, setUpdatedTime] = useState(new Date());
 
   const callAPIs = async () => {
-    await setLoading(true);
     await controlSensorStatusAPI(kit, 'window', setControlStatus);
     await controlSensorStatusAPI(kit, 'pump', setControlStatus);
     await controlSensorStatusAPI(kit, 'fan', setControlStatus);
@@ -63,8 +62,13 @@ const Main = () => {
 
   useEffect(() => {
     console.log(lang + kit + days + updatedTime);
+    setLoading(true);
     kit && callAPIs();
-  }, [lang, kit, days, updatedTime]);
+  }, [kit, updatedTime]);
+
+  useEffect(() => {
+    callAPIs();
+  }, [lang, days]);
 
   const option = {
     loop: true,
