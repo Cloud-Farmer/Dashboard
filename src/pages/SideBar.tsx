@@ -45,7 +45,7 @@ const Sidebar: React.FC<Props> = ({
   const month = ('0' + (date.getMonth() + 1)).slice(-2);
   const day = ('0' + date.getDate()).slice(-2);
   const datestr = year + month + day;
-  const hours = date.getHours() - 1 + '00';
+  const hours = '0' + (date.getHours() - 1 + '00');
   const hour = ('0' + date.getHours()).slice(-2);
   const minute = ('0' + date.getMinutes()).slice(-2);
   const timestr = hours;
@@ -76,6 +76,8 @@ const Sidebar: React.FC<Props> = ({
         },
       })
       .then((response) => {
+        console.log(timestr);
+        console.log(response);
         setchange(response.data.response.body.items.item[0].obsrValue);
         settemp(response.data.response.body.items.item[3].obsrValue);
         setLoading(false);
